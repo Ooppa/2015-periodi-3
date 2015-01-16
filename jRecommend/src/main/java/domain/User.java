@@ -14,40 +14,76 @@ import java.util.ArrayList;
  */
 public class User {
 
-    // TODO JavaDoc
     private final long id;
-    private String firstName, surName;
+    private String firstName, lastName;
+
+    /*
+     * Ratings given by the user
+     */
     private ArrayList<Rating> ratings;
 
-    public User(long id, String firstName, String surName) {
+    /**
+     * Creates a new user
+     *
+     * @param id        the unique id for the user
+     * @param firstName user's first name
+     * @param lastName  user's last name
+     */
+    public User(long id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
-        this.surName = surName;
+        this.lastName = lastName;
         this.ratings = new ArrayList<>();
     }
 
+    /**
+     * Returns users first name
+     *
+     * @return firstName
+     */
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    /**
+     * Returns users last name
+     *
+     * @return lastName
+     */
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getSurName() {
-        return surName;
-    }
-
-    public void setSurName(String surName) {
-        this.surName = surName;
-    }
-
+    /**
+     * Returns a list of ratings given by the user
+     *
+     * @return ratings ratings given by the user
+     */
     public ArrayList<Rating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(ArrayList<Rating> ratings) {
-        this.ratings = ratings;
+    /**
+     * Add a new rating to this user
+     *
+     * @param rating rating to add
+     */
+    public void addRating(Rating rating) {
+        // TODO
+    }
+
+    /**
+     * Remove the rating given from the user
+     *
+     * @param rating rating to remove
+     */
+    public void removeRating(Rating rating) {
+        // TODO
+    }
+
+    @Override
+    public String toString() {
+        return this.firstName+" "+this.lastName;
     }
 
     @Override

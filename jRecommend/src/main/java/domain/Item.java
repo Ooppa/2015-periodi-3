@@ -12,72 +12,17 @@ import java.util.ArrayList;
  *
  * @author Ooppa
  */
-public class Item {
-
-    private final long id;
-    private String name, description;
+public class Item extends AbstractElement {
 
     private ArrayList<Category> categories;
     private ArrayList<Quality> qualities;
     private ArrayList<Rating> ratings;
 
-    /**
-     * Creates a new Item.
-     *
-     * @param id   the unique id for the item
-     * @param name the name for the item
-     */
     public Item(long id, String name) {
-        this.id = id;
-        this.name = name;
+        super(id, name);
         this.categories = new ArrayList<>();
         this.qualities = new ArrayList<>();
         this.ratings = new ArrayList<>();
-    }
-
-    /**
-     * Returns items unique id
-     *
-     * @return id
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Returns the name of the item
-     *
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Set a new name for the item
-     *
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Returns the description of the item
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Set a new description for the item
-     *
-     * @param description
-     */
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     /**
@@ -94,7 +39,7 @@ public class Item {
     /**
      * Add a new category for the item
      *
-     * @param category
+     * @param category category to add
      *
      * @see Category
      */
@@ -105,7 +50,7 @@ public class Item {
     /**
      * Remove the category given from the item
      *
-     * @param category
+     * @param category category to remove
      *
      * @see Category
      */
@@ -177,37 +122,6 @@ public class Item {
      */
     public void removeRating(Rating rating) {
         // TODO
-    }
-
-    @Override
-    public String toString() {
-        if(!description.isEmpty()) {
-            return id+": "+name+"("+description+")";
-        } else {
-            return id+": "+name;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 71*hash+(int) (this.id^(this.id>>>32));
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj==null) {
-            return false;
-        }
-        if(getClass()!=obj.getClass()) {
-            return false;
-        }
-        final Item other = (Item) obj;
-        if(this.id!=other.id) {
-            return false;
-        }
-        return true;
     }
 
 }

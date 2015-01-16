@@ -35,4 +35,9 @@ public enum Star {
         return amount;
     }
 
+    @Override
+    public String toString() {
+        return this.amount+" / 5 Stars";
+    }
+
 }
