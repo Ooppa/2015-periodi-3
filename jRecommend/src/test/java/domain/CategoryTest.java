@@ -37,7 +37,7 @@ public class CategoryTest {
 
     @Test
     public void testGetName() {
-        s
+        
     }
 
     @Test

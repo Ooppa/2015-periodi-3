@@ -60,7 +60,6 @@ public class Rating {
     }
 
     // TODO JavaDoc
-    
     public User getCreator() {
         return creator;
     }
