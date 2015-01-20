@@ -28,6 +28,7 @@ public class User {
      * @param id        the unique id for the user
      * @param firstName user's first name
      * @param lastName  user's last name
+     * @see Rating
      */
     public User(long id, String firstName, String lastName) {
         this.id = id;
@@ -37,39 +38,52 @@ public class User {
     }
 
     /**
+     * Returns users unique id
+     *
+     * @return id users id
+     */
+    public long getId() {
+        return this.id;
+    }
+
+    /**
      * Returns users first name
      *
-     * @return firstName
+     * @return firstName users first name
      */
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     /**
      * Returns users last name
      *
-     * @return lastName
+     * @return lastName users last name
      */
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     /**
      * Returns a list of ratings given by the user
      *
+     * @see Rating
      * @return ratings ratings given by the user
      */
     public ArrayList<Rating> getRatings() {
-        return ratings;
+        return this.ratings;
     }
 
     /**
      * Add a new rating to this user
      *
+     * @see Rating
      * @param rating rating to add
      */
     public void addRating(Rating rating) {
-        // TODO
+        if(!this.ratings.contains(rating)) {
+            this.ratings.add(rating);
+        }
     }
 
     /**
@@ -78,12 +92,14 @@ public class User {
      * @param rating rating to remove
      */
     public void removeRating(Rating rating) {
-        // TODO
+        if(this.ratings.contains(rating)) {
+            this.ratings.remove(rating);
+        }
     }
 
     @Override
     public String toString() {
-        return this.firstName+" "+this.lastName;
+        return this.id+": "+this.firstName+" "+this.lastName;
     }
 
     @Override

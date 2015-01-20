@@ -19,6 +19,7 @@ public class Category<E> extends AbstractElement {
 
     public Category(long id, String name) {
         super(id, name);
+        this.elements = new ArrayList<>();
     }
     
     /**
@@ -36,7 +37,9 @@ public class Category<E> extends AbstractElement {
      * @param element element to add
      */
     public void addElement(E element) {
-        // TODO
+        if(this.elements.contains(element) == false && element != null) {
+            this.elements.add(element);
+        }
     }
 
     /**
@@ -45,7 +48,16 @@ public class Category<E> extends AbstractElement {
      * @param element element to remove
      */
     public void removeElement(E element) {
-        // TODO
+        if(this.elements.contains(element)) {
+            this.elements.remove(element);
+        }
     }
+
+    @Override
+    public String toString() {
+        return this.getId() + ": "+ this.getName();
+    }
+    
+    
 
 }

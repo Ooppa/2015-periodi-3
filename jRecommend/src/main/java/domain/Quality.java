@@ -13,55 +13,111 @@ import java.util.ArrayList;
  * @author Ooppa
  */
 public class Quality extends AbstractElement {
-    
-    // TODO JavaDoc
 
+    /*
+     * Categories this Quality belongs to
+     */
     private ArrayList<Category> categories;
+    
+    /*
+     * Items this quality is accociated with
+     */
+    private ArrayList<Item> items;
+
+    /*
+     * The Value of this Quality for the item associated
+     */
     private Value importance;
 
+    /**
+     * Creates a new quality
+     *
+     * @param id   the unique id for the quality
+     * @param name the name for the quality
+     * @see AbstractElement
+     * @see Category
+     */
     public Quality(long id, String name) {
         super(id, name);
         this.categories = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     /**
-     * 
-     * @return
+     * Returns a list of categories this Quality belongs to
+     *
+     * @see Category
+     * @return a list of categories
      */
     public ArrayList<Category> getCategories() {
         return categories;
     }
 
     /**
+     * Add a new category for this quality
      *
-     * @param category
+     * @see Category
+     * @param category category to add
      */
     public void addCategory(Category category) {
-        this.categories = categories;
-    }
-    
-    /**
-     *
-     * @param category
-     */
-    public void removeCategory(Category category) {
-        this.categories = categories;
+        if(this.categories.contains(category)==false) {
+            this.categories.add(category);
+        }
     }
 
     /**
+     * Remove a category from this quality
      *
-     * @return
+     * @param category category to remove
+     * @see Category
+     */
+    public void removeCategory(Category category) {
+        if(this.categories.contains(category)) {
+            this.categories.remove(category);
+        }
+    }
+    
+    /**
+     * Add a new item associated with this quality
+     *
+     * @param Item item to add
+     * @see Item
+     */
+    public void addItem(Item item) {
+        if(this.items.contains(item)==false) {
+            this.items.add(item);
+        }
+    }
+
+    /**
+     * Remove a item associated with this quality
+     *
+     * @param item item to remove
+     * @see Item
+     */
+    public void removeItem(Item item) {
+        if(this.items.contains(item)) {
+            this.items.add(item);
+        }
+    }
+
+    /**
+     * Returns the importance level of this quality
+     *
+     * @return importance of the Quality
+     * @see Value
      */
     public Value getImportance() {
         return importance;
     }
 
     /**
-     *
+     * Set a new importance level for this quality
      * @param importance
+     * @see Value
      */
     public void setImportance(Value importance) {
         this.importance = importance;
     }
-    
+
 }

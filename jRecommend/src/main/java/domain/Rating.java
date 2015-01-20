@@ -6,6 +6,7 @@
 package domain;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * User given rating to a certain item.
@@ -13,11 +14,6 @@ import java.util.Date;
  * @author Ooppa
  */
 public class Rating {
-
-    /*
-     * Unique ID for the rating, used to identify the rating
-     */
-    private final long id;
 
     /*
      * Reason who gave the rating
@@ -51,40 +47,54 @@ public class Rating {
      * @see Item
      * @see Star
      */
-    public Rating(long id, User creator, Item item, Star starsGiven) {
-        this.id = id;
+    public Rating(User creator, Item item, Star starsGiven) {
         this.creator = creator;
         this.item = item;
         this.starsGiven = starsGiven;
         this.timestamp = new Date().getTime();
     }
 
-    // TODO JavaDoc
+    /*
+     * Returns the creator of the rating
+     * @see User
+     */
     public User getCreator() {
         return creator;
     }
 
+    /*
+     * Returns the Item that the rating is accosiated with
+     * @see Item
+     */
     public Item getItem() {
         return item;
     }
 
+    /*
+     * Returns the amount of starts given in the rating
+     * @see Star
+     */
     public Star getStarsGiven() {
         return starsGiven;
     }
 
+    /*
+     * Set a new amout of stars for the rating
+     */
     public void setStarsGiven(Star starsGiven) {
         this.starsGiven = starsGiven;
     }
 
     @Override
     public String toString() {
-        return id+": Rating: "+this.starsGiven.toString()+" by "+this.creator.toString();
+        return "Rating: "+this.starsGiven.toString()+" by "+this.creator.toString();
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67*hash+(int) (this.id^(this.id>>>32));
+        int hash = 5;
+        hash = 89*hash+Objects.hashCode(this.creator);
+        hash = 89*hash+Objects.hashCode(this.item);
         return hash;
     }
 
@@ -97,7 +107,10 @@ public class Rating {
             return false;
         }
         final Rating other = (Rating) obj;
-        if(this.id!=other.id) {
+        if(!Objects.equals(this.creator, other.creator)) {
+            return false;
+        }
+        if(!Objects.equals(this.item, other.item)) {
             return false;
         }
         return true;

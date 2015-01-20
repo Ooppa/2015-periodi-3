@@ -12,6 +12,7 @@ import org.junit.*;
  * Tests the Star enumeration
  *
  * @author Ooppa
+ * @see Star
  */
 public class StarTest {
 

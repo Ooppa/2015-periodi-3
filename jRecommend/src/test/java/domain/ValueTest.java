@@ -13,6 +13,7 @@ import org.junit.*;
  * Tests the Value enumeration
  *
  * @author Ooppa
+ * @see Value
  */
 public class ValueTest {
 

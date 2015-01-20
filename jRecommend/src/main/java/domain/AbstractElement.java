@@ -6,6 +6,7 @@
 package domain;
 
 /**
+ * Defines an element that has id, name and description
  *
  * @author Ooppa
  */
@@ -14,27 +15,57 @@ public abstract class AbstractElement {
     private final long id;
     private String name, description;
 
+    /**
+     *
+     * @param id
+     * @param name
+     */
     public AbstractElement(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    /**
+     * Get unique id of the AbstractElement
+     *
+     * @return
+     */
     public long getId() {
-        return id;
+        return this.id;
     }
 
+    /**
+     * Get the name of the AbstractElement
+     *
+     * @return
+     */
     public String getName() {
-        return name;
+        return this.name;
     }
 
+    /**
+     * Set new name for the AbstractElement
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Get the description of the AbstractElement
+     *
+     * @return
+     */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
+    /**
+     * Set new description for the AbstractElement
+     *
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }

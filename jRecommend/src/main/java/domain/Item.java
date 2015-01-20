@@ -14,10 +14,30 @@ import java.util.ArrayList;
  */
 public class Item extends AbstractElement {
 
+    /*
+     * Categories this Quality belongs to
+     */
     private ArrayList<Category> categories;
+
+    /*
+     * Qualities this item is accoiated with
+     */
     private ArrayList<Quality> qualities;
+
+    /*
+     * Ratings given to this item
+     */
     private ArrayList<Rating> ratings;
 
+    /**
+     * Creates a new Item
+     *
+     * @param id
+     * @param name
+     *
+     * @see AbstractElement
+     * @see Category, Quality, Rating
+     */
     public Item(long id, String name) {
         super(id, name);
         this.categories = new ArrayList<>();
@@ -44,7 +64,9 @@ public class Item extends AbstractElement {
      * @see Category
      */
     public void addCategory(Category category) {
-        // TODO
+        if(this.categories.contains(category) == false && category != null) {
+            this.categories.add(category);
+        }
     }
 
     /**
@@ -55,7 +77,9 @@ public class Item extends AbstractElement {
      * @see Category
      */
     public void removeCategory(Category category) {
-        // TODO
+        if(this.categories.contains(category)) {
+            this.categories.remove(category);
+        }
     }
 
     /**
@@ -77,7 +101,9 @@ public class Item extends AbstractElement {
      * @see Quality
      */
     public void addQuality(Quality quality) {
-        // TODO
+        if(this.qualities.contains(quality) == false && quality != null) {
+            this.qualities.add(quality);
+        }
     }
 
     /**
@@ -88,7 +114,9 @@ public class Item extends AbstractElement {
      * @see Quality
      */
     public void removeQuality(Quality quality) {
-        // TODO
+        if(this.qualities.contains(quality)) {
+            this.qualities.remove(quality);
+        }
     }
 
     /**
@@ -110,7 +138,9 @@ public class Item extends AbstractElement {
      * @see Rating
      */
     public void addRating(Rating rating) {
-        // TODO
+        if(this.ratings.contains(rating) == false){
+            this.ratings.add(rating);
+        }
     }
 
     /**
@@ -121,7 +151,9 @@ public class Item extends AbstractElement {
      * @see Rating
      */
     public void removeRating(Rating rating) {
-        // TODO
+        if(this.ratings.contains(rating)) {
+            this.ratings.remove(rating);
+        }
     }
 
 }

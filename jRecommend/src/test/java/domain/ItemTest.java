@@ -11,9 +11,9 @@ import static junit.framework.Assert.assertTrue;
 import org.junit.*;
 
 /**
- * Tests for Item class.
- *
+ * 
  * @author Ooppa
+ * @see Item
  */
 public class ItemTest {
 
@@ -31,11 +31,6 @@ public class ItemTest {
     @After
     public void tearDown() {
         this.testItem = null;
-    }
-
-    @Test
-    public void testGetId() {
-        assertEquals(testItem.getId(), 1L);
     }
 
     @Test
@@ -61,95 +56,102 @@ public class ItemTest {
     }
 
     @Test
-    public void testGetCategories() {
-        // TODO
+    public void testGetCategoriesWhenNone() {
+        assertTrue(testItem.getCategories().isEmpty());
+    }
+    
+    @Test
+    public void testGetCategoriesWhenSome() {
+        Category category = new Category(1L, "Category");
+        this.testItem.addCategory(category);
+        
+        assertTrue(testItem.getCategories().contains(category));
     }
 
     @Test
-    public void testAddCategory() {
-        // TODO
+    public void testAddCategoryWhenDuplicates() {
+        Category category = new Category(1L, "Category");
+        this.testItem.addCategory(category);
+        this.testItem.addCategory(category);
+        
+        assertEquals(testItem.getCategories().size(), 1);
     }
 
     @Test
     public void testRemoveCategory() {
-        // TODO
+        Category category1 = new Category(1L, "Category One");
+        Category category2 = new Category(2L, "Category Two");
+        
+        this.testItem.addCategory(category1);
+        this.testItem.addCategory(category2);
+        
+        this.testItem.removeCategory(category1);
+        
+        assertTrue(this.testItem.getCategories().contains(category1) == false
+        &&this.testItem.getCategories().contains(category2));
     }
 
     @Test
     public void testGetQualitiesWhenNone() {
         assertEquals(this.testItem.getQualities().size(), 0);
     }
-    
-    /**
-     * Tests if the addQuality mistakes null for quality (should not)
-     */
+
     @Test
     public void testAddQualityWhenNull() {
         this.testItem.addQuality(null);
         assertEquals(this.testItem.getQualities().size(), 0);
     }
-    
+
     @Test
     public void testGetQualitiesWhenSome() {
         this.testItem.addQuality(new Quality(1L, "Smooth"));
         this.testItem.addQuality(new Quality(2L, "Big"));
+
         assertEquals(this.testItem.getQualities().size(), 2);
     }
-    
-    /**
-     * Tests if addQuality accepts duplicates (should not)
-     */
+
     @Test
     public void testGetQualitiesWhenDuplicates() {
         Quality smooth = new Quality(1L, "Smooth");
         Quality big = new Quality(2L, "Big");
-        
+
         for(int i = 1; i<=10; i++) {
-            if(i%2==0){
+            if(i%2==0) {
                 this.testItem.addQuality(smooth);
             } else {
                 this.testItem.addQuality(big);
             }
         }
-        
+
         assertEquals(this.testItem.getQualities().size(), 2);
     }
 
-    /**
-     * Tests if the removeQuality removes the right quality
-     */
     @Test
     public void testRemoveQuality() {
         Quality smooth = new Quality(1L, "Smooth");
         Quality big = new Quality(2L, "Big");
-        
+
         this.testItem.addQuality(smooth);
         this.testItem.addQuality(big);
-        
+
         this.testItem.removeQuality(smooth);
-        
+
         assertEquals(this.testItem.getQualities().contains(big), true);
     }
 
-    /**
-     * Tests addRating method
-     * @see Star
-     * @see User
-     * @see Rating
-     */
     @Test
     public void testAddRating() {
         User negativeUser = new User(1L, "Natalie", "Negative");
-        Rating negativeRating = new Rating(1L, negativeUser, this.testItem, Star.ONE);
-        
+        Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
+
         this.testItem.addRating(negativeRating);
-        
+
         assertEquals(this.testItem.getRatings().size(), 1);
     }
-    
+
     @Test
     public void testGetRatings() {
-        
+
     }
 
     @Test
