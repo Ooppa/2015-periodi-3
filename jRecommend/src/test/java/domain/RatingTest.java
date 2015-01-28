@@ -91,5 +91,30 @@ public class RatingTest {
         Rating otherRating = new Rating(creator, item, Star.THREE);
         assertFalse(this.testRating.equals(otherRating));
     }
+    
+    @Test
+    public void testEqualsWhenNull() {
+        assertFalse(this.testRating.equals(null));
+    }
+    
+    @Test
+    public void testEqualsWhenWrongClass() {
+        Item item = new Item(1L, "Not a rating");
+        assertFalse(this.testRating.equals(item));
+    }
+    
+    @Test
+    public void testHashCodeWithSame() {
+        assertTrue(this.testRating.hashCode() == this.testRating.hashCode());
+    }
+    
+    @Test
+    public void testHashCodeWithDifferent() {
+        User creator = new User(2L, "Other", "User");
+        Item item = new Item(2L, "Other Item");
+
+        Rating otherRating = new Rating(creator, item, Star.THREE);
+        assertTrue(this.testRating.hashCode() != otherRating.hashCode());
+    }
 
 }

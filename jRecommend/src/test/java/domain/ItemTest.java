@@ -11,7 +11,7 @@ import static junit.framework.Assert.assertTrue;
 import org.junit.*;
 
 /**
- * 
+ *
  * @author Ooppa
  * @see Item
  */
@@ -59,13 +59,19 @@ public class ItemTest {
     public void testGetCategoriesWhenNone() {
         assertTrue(testItem.getCategories().isEmpty());
     }
-    
+
     @Test
     public void testGetCategoriesWhenSome() {
         Category category = new Category(1L, "Category");
         this.testItem.addCategory(category);
-        
+
         assertTrue(testItem.getCategories().contains(category));
+    }
+
+    @Test
+    public void testAddCategoryWhenNull() {
+        this.testItem.addCategory(null);
+        assertFalse(testItem.getCategories().contains(null));
     }
 
     @Test
@@ -73,7 +79,7 @@ public class ItemTest {
         Category category = new Category(1L, "Category");
         this.testItem.addCategory(category);
         this.testItem.addCategory(category);
-        
+
         assertEquals(testItem.getCategories().size(), 1);
     }
 
@@ -81,14 +87,27 @@ public class ItemTest {
     public void testRemoveCategory() {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
-        
+
         this.testItem.addCategory(category1);
         this.testItem.addCategory(category2);
-        
+
         this.testItem.removeCategory(category1);
-        
-        assertTrue(this.testItem.getCategories().contains(category1) == false
-        &&this.testItem.getCategories().contains(category2));
+
+        assertTrue(this.testItem.getCategories().contains(category1)==false
+                &&this.testItem.getCategories().contains(category2));
+    }
+
+    @Test
+    public void testRemoveWrongCategory() {
+        Category category1 = new Category(1L, "Category One");
+        Category category2 = new Category(2L, "Category Two");
+
+        this.testItem.addCategory(category1);
+
+        this.testItem.removeCategory(category2);
+
+        assertTrue(this.testItem.getCategories().contains(category1)==true
+                &&this.testItem.getCategories().contains(category2)==false);
     }
 
     @Test
@@ -140,6 +159,19 @@ public class ItemTest {
     }
 
     @Test
+    public void testRemoveWrongQuality() {
+        Quality smooth = new Quality(1L, "Smooth");
+        Quality big = new Quality(2L, "Big");
+
+        this.testItem.addQuality(smooth);
+
+        this.testItem.removeQuality(big);
+
+        assertTrue(this.testItem.getQualities().contains(big)==false
+                &&this.testItem.getQualities().contains(smooth)==true);
+    }
+
+    @Test
     public void testAddRating() {
         User negativeUser = new User(1L, "Natalie", "Negative");
         Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
@@ -151,17 +183,45 @@ public class ItemTest {
 
     @Test
     public void testGetRatings() {
+        User negativeUser = new User(1L, "Natalie", "Negative");
+        Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
 
+        this.testItem.addRating(negativeRating);
+
+        assertTrue(this.testItem.getRatings().contains(negativeRating));
     }
 
     @Test
     public void testRemoveRating() {
+        User negativeUser = new User(1L, "Natalie", "Negative");
+        Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
 
+        User positiveUser = new User(2L, "Peter", "Positive");
+        Rating positiveRating = new Rating(positiveUser, this.testItem, Star.FIFE);
+
+        this.testItem.addRating(negativeRating);
+        this.testItem.addRating(positiveRating);
+
+        this.testItem.removeRating(positiveRating);
+
+        assertTrue(this.testItem.getRatings().contains(negativeRating)==true
+                &&this.testItem.getRatings().contains(positiveRating)==false);
     }
-
+    
     @Test
-    public void testToString() {
+    public void testRemoveWrongRating() {
+        User negativeUser = new User(1L, "Natalie", "Negative");
+        Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
 
+        User positiveUser = new User(2L, "Peter", "Positive");
+        Rating positiveRating = new Rating(positiveUser, this.testItem, Star.FIFE);
+
+        this.testItem.addRating(negativeRating);
+
+        this.testItem.removeRating(positiveRating);
+
+        assertTrue(this.testItem.getRatings().contains(negativeRating)==true
+                &&this.testItem.getRatings().contains(positiveRating)==false);
     }
 
     @Test

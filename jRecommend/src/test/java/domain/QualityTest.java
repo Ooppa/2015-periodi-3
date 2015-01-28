@@ -82,6 +82,20 @@ public class QualityTest {
     }
     
     @Test
+    public void testRemoveWrongCategory() {
+        Category category1 = new Category(1L, "Category One");
+        Category category2 = new Category(2L, "Category Two");
+        
+        this.testQuality.addCategory(category1);
+        this.testQuality.removeCategory(category2);
+        
+        assertTrue(
+                this.testQuality.getCategories().contains(category1) == true
+                &&this.testQuality.getCategories().contains(category2) == false
+        );
+    }
+    
+    @Test
     public void testGetImportance() {
         assertEquals(this.testQuality.getImportance(), Value.LOW);
     }

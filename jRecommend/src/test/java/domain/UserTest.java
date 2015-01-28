@@ -51,20 +51,20 @@ public class UserTest {
     public void testAddRatingWithOne() {
         Item item = new Item(1L, "Kukkaruukku");
         Rating rating = new Rating(testUser, item, Star.FIFE);
-        
+
         testUser.addRating(rating);
 
         assertTrue(testUser.getRatings().contains(rating));
     }
-    
+
     @Test
     public void testAddRatingDuplicates() {
         Item item = new Item(1L, "Kukkaruukku");
         Rating rating = new Rating(testUser, item, Star.FIFE);
-        
+
         testUser.addRating(rating);
         testUser.addRating(rating);
-        
+
         assertTrue(testUser.getRatings().contains(rating));
     }
 
@@ -72,10 +72,10 @@ public class UserTest {
     public void testAddRatingWithMany() {
         Item item1 = new Item(1L, "Kukkaruukku");
         Item item2 = new Item(2L, "Ämpäri");
-        
+
         Rating rating1 = new Rating(testUser, item1, Star.FIFE);
         Rating rating2 = new Rating(testUser, item2, Star.FIFE);
-        
+
         testUser.addRating(rating1);
         testUser.addRating(rating2);
 
@@ -86,10 +86,10 @@ public class UserTest {
     public void testRemoveRating() {
         Item item1 = new Item(1L, "Kukkaruukku");
         Item item2 = new Item(2L, "Ämpäri");
-        
+
         Rating rating1 = new Rating(testUser, item1, Star.FIFE);
         Rating rating2 = new Rating(testUser, item2, Star.FIFE);
-        
+
         testUser.addRating(rating1);
         testUser.addRating(rating2);
         testUser.removeRating(rating1);
@@ -98,14 +98,41 @@ public class UserTest {
     }
 
     @Test
+    public void testRemoveRatingThatDoesntExist() {
+        Item item1 = new Item(1L, "Kukkaruukku");
+        Item item2 = new Item(2L, "Ämpäri");
+
+        Rating rating1 = new Rating(testUser, item1, Star.FIFE);
+        Rating rating2 = new Rating(testUser, item2, Star.FIFE);
+
+        testUser.addRating(rating1);
+
+        testUser.removeRating(rating2);
+
+        assertTrue(testUser.getRatings().contains(rating1)==true
+                &&testUser.getRatings().contains(rating2)==false);
+    }
+
+    @Test
     public void testToString() {
         String toString = testUser.toString();
-        
+
         boolean containsId = toString.contains(testUser.getId()+"");
         boolean containsFirstName = toString.contains(testUser.getFirstName());
         boolean containsLastName = toString.contains(testUser.getLastName());
-        
-        assertTrue(containsId && containsFirstName && containsLastName);
+
+        assertTrue(containsId&&containsFirstName&&containsLastName);
+    }
+    
+    @Test
+    public void testHashCodeWithSame() {
+        assertTrue(testUser.hashCode() == testUser.hashCode());
+    }
+    
+    @Test
+    public void testHashCodeWithDifferent() {
+        User other = new User(2L, "Other", "User");
+        assertTrue(testUser.hashCode() != other.hashCode());
     }
 
     @Test
@@ -116,8 +143,19 @@ public class UserTest {
     @Test
     public void testEqualsWhenFalse() {
         User otherUser = new User(2L, "Barak", "Obama");
-        
+
         assertFalse(testUser.equals(otherUser));
+    }
+    
+    @Test
+    public void testEqualsWhenNull() {
+        assertFalse(testUser.equals(null));
+    }
+
+    @Test
+    public void testEqualsWhenWrongObject() {
+        Item item = new Item(1L, "Kukkaruukku");
+        assertFalse(testUser.equals(item));
     }
 
 }

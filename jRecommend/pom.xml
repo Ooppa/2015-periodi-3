@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fi.ooppa</groupId>
     <artifactId>jRecommend</artifactId>
-    <version>V1.10</version>
+    <version>V2.20</version><!-- Viikko 2 Palautus 2 -->
     <packaging>jar</packaging>
     
     <properties>
