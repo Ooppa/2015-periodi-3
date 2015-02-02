@@ -27,9 +27,13 @@ public class Engine {
             
             for(Quality sourceQuality : sourceQualities) {
                 for(Quality compareQuality : compareQualities) {
-                    recommendLevel += 
+                    
+                    if( sourceQuality.equals(compareQuality) ){
+                        recommendLevel += 
                             sourceQuality.getImportance().getValueAsDouble()
                             *compareQuality.getImportance().getValueAsDouble();
+                    }
+                    
                 }
             }
             
