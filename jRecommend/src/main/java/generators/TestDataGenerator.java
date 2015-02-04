@@ -9,6 +9,8 @@ import domain.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Creates example data for testing out the algorithm.
@@ -27,6 +29,8 @@ public class TestDataGenerator {
     private ArrayList<Quality> qualities;
     private ArrayList<Rating> ratings;
 
+    private static final Logger logger = Logger.getLogger(TestDataGenerator.class.getName());
+
     /**
      * Creates a new TestDataGenerator with no debug and scale of 1000.
      */
@@ -41,15 +45,140 @@ public class TestDataGenerator {
      * @param scale scales the amount of test data generated (recommended 500->)
      */
     public TestDataGenerator(boolean debug, int scale) {
+
+        // Scale should not be too small
+        if(scale<300) {
+            logger.log(Level.WARNING, "Scale for TestDataGenerator was too "
+                    +"small, going to use the default value of 1000.");
+            scale = 1000;
+        }
+
+        // Scale should not be too big
+        if(scale>10000) {
+            logger.log(Level.WARNING, "Scale for TestDataGenerator was too "
+                    +"big, going to use the default value of 1000.");
+            scale = 1000;
+        }
+
+        // Debugging fields
         this.startingTime = System.nanoTime();
         this.debug = debug;
 
+        // Random() class used to randomize some testdata
         this.random = new Random();
 
-        if(debug) {
-            System.out.println(debugTimestamp()+"------------------------------");
-        }
+        // Starting to populate the fields
+        populateFields(scale);
 
+        if(debug) {
+            System.out.println(debugTimestamp()+"Creation process is now done."
+                    +" Overall it took "+TimeUnit.SECONDS.convert(
+                            (System.nanoTime()-startingTime), TimeUnit.NANOSECONDS)
+                    +" seconds.");
+        }
+    }
+
+    /**
+     * Returns a list of generated users
+     *
+     * @return users
+     *
+     * @see User
+     */
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    /**
+     * Returns a list of generated items
+     *
+     * @return items
+     *
+     * @see Item
+     */
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    /**
+     * Returns a list of generated qualities
+     *
+     * @return qualities
+     *
+     * @see Quality
+     */
+    public ArrayList<Quality> getQualities() {
+        return qualities;
+    }
+
+    /**
+     * Returns a list of generated categories
+     *
+     * @return categories
+     *
+     * @see Category
+     */
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
+    /**
+     * Returns a list of generated ratings
+     *
+     * @return ratings
+     *
+     * @see Rating
+     */
+    public ArrayList<Rating> getRatings() {
+        return ratings;
+    }
+
+    /**
+     * Returns the amount of users generated
+     *
+     * @return amount of users
+     */
+    public int getAmountOfUsers() {
+        return users.size();
+    }
+
+    /**
+     * Returns the amount of items generated
+     *
+     * @return amount of items
+     */
+    public int getAmountOfItems() {
+        return items.size();
+    }
+
+    /**
+     * Returns the amount of qualities generated
+     *
+     * @return amount of qualities
+     */
+    public int getAmountOfQualities() {
+        return qualities.size();
+    }
+
+    /**
+     * Returns the amount of categories generated
+     *
+     * @return amount of categories
+     */
+    public int getAmountOfCategories() {
+        return categories.size();
+    }
+
+    /**
+     * Returns the amount of ratings generated
+     *
+     * @return amount of ratings
+     */
+    public int getAmountOfRatings() {
+        return ratings.size();
+    }
+
+    private void populateFields(int scale) {
         populateUsers(Math.round(scale*250));
         populateItems(Math.round(scale*100));
         populateQualities((int) Math.round((double) scale*2.5));
@@ -61,13 +190,6 @@ public class TestDataGenerator {
         createRatings();
 
         printTotals();
-
-        if(debug) {
-            System.out.println(debugTimestamp()+"Creation process is now done."
-                    +" Overall it took "+TimeUnit.SECONDS.convert(
-                            (System.nanoTime()-startingTime), TimeUnit.NANOSECONDS)
-                    +" seconds.");
-        }
     }
 
     /*
@@ -201,11 +323,11 @@ public class TestDataGenerator {
      * Prints out the totals of the generated content to the console
      */
     private void printTotals() {
-        System.out.println("Created "+users.size()+" users.");
-        System.out.println("Created "+items.size()+" items.");
-        System.out.println("Created "+categories.size()+" categories.");
-        System.out.println("Created "+qualities.size()+" qualities.");
-        System.out.println("Created "+ratings.size()+" ratings.");
+        System.out.println("Created "+getAmountOfUsers()+" users.");
+        System.out.println("Created "+getAmountOfItems()+" items.");
+        System.out.println("Created "+getAmountOfCategories()+" categories.");
+        System.out.println("Created "+getAmountOfQualities()+" qualities.");
+        System.out.println("Created "+getAmountOfRatings()+" ratsings.");
     }
 
     /*
@@ -224,7 +346,8 @@ public class TestDataGenerator {
     }
 
     /*
-     * Gives out the amount of milliseconds elapsed from the start of the generation
+     * Gives out the amount of milliseconds elapsed from the start of the
+     * generation
      */
     private String debugTimestamp() {
         return TimeUnit.MILLISECONDS.convert((System.nanoTime()-startingTime), TimeUnit.NANOSECONDS)+"ms: ";

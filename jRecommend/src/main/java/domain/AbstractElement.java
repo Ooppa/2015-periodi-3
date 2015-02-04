@@ -58,7 +58,11 @@ public abstract class AbstractElement {
      * @return
      */
     public String getDescription() {
-        return this.description;
+        if( this.description == null){
+            return "No description";
+        } else {
+            return this.description;
+        }
     }
 
     /**
@@ -68,6 +72,11 @@ public abstract class AbstractElement {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " ("+ getDescription() + ")";
     }
 
     @Override

@@ -7,6 +7,8 @@ package domain;
 
 /**
  * Defines the importance of given quality, category or rating.
+ * If the importance of the quality in item A is 1.25 and in
+ * item B it's 0.75 the importance between those two is 1.25 * 0.75 = 0.9375
  *
  * @author Ooppa
  */

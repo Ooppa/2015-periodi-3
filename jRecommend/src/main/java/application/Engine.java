@@ -8,6 +8,7 @@ package application;
 import domain.Item;
 import domain.Quality;
 import domain.RecommendedItem;
+import domain.User;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -16,33 +17,40 @@ import java.util.Collections;
  * @author Ooppa
  */
 public class Engine {
-    
-    public ArrayList<RecommendedItem> rateItemsBasedOnQualities(Item source, ArrayList<Item> compares){
+
+    public ArrayList<RecommendedItem> rateItemsBasedOnQualities(Item source, ArrayList<Item> compares) {
         ArrayList<RecommendedItem> recommends = new ArrayList<>(compares.size());
         ArrayList<Quality> sourceQualities = source.getQualities();
-        
+
         for(Item compare : compares) {
             ArrayList<Quality> compareQualities = compare.getQualities();
             double recommendLevel = 0;
-            
+
             for(Quality sourceQuality : sourceQualities) {
                 for(Quality compareQuality : compareQualities) {
-                    
-                    if( sourceQuality.equals(compareQuality) ){
-                        recommendLevel += 
-                            sourceQuality.getImportance().getValueAsDouble()
-                            *compareQuality.getImportance().getValueAsDouble();
+
+                    if(sourceQuality.equals(compareQuality)) {
+                        recommendLevel
+                                += sourceQuality.getImportance().getValueAsDouble()
+                                *compareQuality.getImportance().getValueAsDouble();
                     }
-                    
+
                 }
             }
-            
+
             recommends.add(new RecommendedItem(compare, recommendLevel));
         }
-        
+
         Collections.sort(recommends, new RecommendedItem());
-        
+
         return recommends;
     }
-    
+
+    public ArrayList<RecommendedItem> rateItemsBasedOnUserReviews(User user, ArrayList<Item> compares) {
+        ArrayList<RecommendedItem> recommends = new ArrayList<>(compares.size());
+
+        // TODO
+        return recommends;
+    }
+
 }

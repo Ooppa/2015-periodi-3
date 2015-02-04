@@ -7,6 +7,7 @@ package domain;
 
 /**
  * Stars are given as ratings to items
+ * The amount of stars varies between 0 and 5.
  *
  * @see Rating
  * @author Ooppa

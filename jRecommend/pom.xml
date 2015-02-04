@@ -48,6 +48,30 @@
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>0.30</version>
+                
+                <configuration>
+                    <targetClasses>
+                        <param>domain.Category</param>
+                        <param>domain.Item</param>
+                        <param>domain.Quality</param>
+                        <param>domain.Rating</param>
+                        <param>domain.RedommendedItem</param>
+                        <param>domain.Star</param>
+                        <param>domain.User</param>
+                        <param>domain.Value</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>domain.CategoryTest</param>
+                        <param>domain.ItemTest</param>
+                        <param>domain.QualityTest</param>
+                        <param>domain.RatingTest</param>
+                        <param>domain.RedommendedItemTest</param>
+                        <param>domain.StarTest</param>
+                        <param>domain.UserTest</param>
+                        <param>domain.ValueTest</param>
+                    </targetTests>
+                </configuration>
+    
             </plugin>
             
         </plugins>

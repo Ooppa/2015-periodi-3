@@ -64,7 +64,7 @@ public class Item extends AbstractElement {
      * @see Category
      */
     public void addCategory(Category category) {
-        if(this.categories.contains(category) == false && category != null) {
+        if(this.categories.contains(category)==false&&category!=null) {
             this.categories.add(category);
         }
     }
@@ -101,7 +101,7 @@ public class Item extends AbstractElement {
      * @see Quality
      */
     public void addQuality(Quality quality) {
-        if(this.qualities.contains(quality) == false && quality != null) {
+        if(this.qualities.contains(quality)==false&&quality!=null) {
             this.qualities.add(quality);
         }
     }
@@ -138,7 +138,7 @@ public class Item extends AbstractElement {
      * @see Rating
      */
     public void addRating(Rating rating) {
-        if(this.ratings.contains(rating) == false){
+        if(this.ratings.contains(rating)==false) {
             this.ratings.add(rating);
         }
     }

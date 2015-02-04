@@ -15,38 +15,104 @@ import org.junit.*;
  * @see Quality
  */
 public class QualityTest {
-    
+
     private Quality testQuality;
-    
+
     public QualityTest() {
     }
-    
+
     @Before
     public void setUp() {
         this.testQuality = new Quality(1L, "Smooth");
         this.testQuality.setImportance(Value.LOW);
     }
-    
+
     @After
     public void tearDown() {
         this.testQuality = null;
     }
-    
+
+    @Test
+    public void testGetItemsWhenEmpty() {
+        assertEquals(this.testQuality.getItems().size(), 0);
+    }
+
+    @Test
+    public void testGetItemsWhenSome() {
+        Item pizzaItem = new Item(69L, "Pizza");
+        Item kebabItem = new Item(42L, "Kebab");
+        this.testQuality.addItem(pizzaItem);
+        this.testQuality.addItem(kebabItem);
+
+        assertEquals(this.testQuality.getItems().size(), 2);
+    }
+
+    @Test
+    public void testAddItem() {
+        Item item = new Item(1L, "Item");
+        this.testQuality.addItem(item);
+
+        assertTrue(this.testQuality.getItems().contains(item));
+    }
+
+    @Test
+    public void testAddDuplicateItem() {
+        Item item = new Item(1L, "Item");
+        this.testQuality.addItem(item);
+        this.testQuality.addItem(item);
+
+        assertTrue(this.testQuality.getItems().contains(item)
+                &&this.testQuality.getItems().size()==1);
+    }
+
+    @Test
+    public void testAddNullItem() {
+        this.testQuality.addItem(null);
+
+        assertTrue(this.testQuality.getItems().contains(null)==false
+                &&this.testQuality.getItems().size()==0);
+    }
+
+    @Test
+    public void testRemoveItem() {
+        Item pizzaItem = new Item(69L, "Pizza");
+        Item kebabItem = new Item(42L, "Kebab");
+        this.testQuality.addItem(pizzaItem);
+        this.testQuality.addItem(kebabItem);
+
+        this.testQuality.removeItem(kebabItem);
+
+        assertTrue(this.testQuality.getItems().contains(pizzaItem)==true
+                &&this.testQuality.getItems().contains(kebabItem)==false);
+    }
+
+    @Test
+    public void testRemoveWrongItem() {
+        Item pizzaItem = new Item(69L, "Pizza");
+        Item kebabItem = new Item(42L, "Kebab");
+        this.testQuality.addItem(pizzaItem);
+
+        this.testQuality.removeItem(kebabItem);
+
+        assertTrue(this.testQuality.getItems().contains(pizzaItem)==true
+                &&this.testQuality.getItems().contains(kebabItem)==false);
+    }
+
     @Test
     public void testAddCategory() {
         Category category = new Category(1L, "Category One");
         this.testQuality.addCategory(category);
-        
+
         assertTrue(this.testQuality.getCategories().contains(category));
     }
-    
+
     @Test
     public void testAddCategoryDuplicates() {
         Category category = new Category(1L, "Category One");
-        
+
         this.testQuality.addCategory(category);
         this.testQuality.addCategory(category);
-        
+
         assertTrue(this.testQuality.getCategories().contains(category));
     }
 
@@ -54,15 +120,15 @@ public class QualityTest {
     public void testGetCategoriesWhenNone() {
         assertEquals(this.testQuality.getCategories().size(), 0);
     }
-    
+
     @Test
     public void testGetCategoriesWhenSome() {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
-        
+
         this.testQuality.addCategory(category1);
         this.testQuality.addCategory(category2);
-        
+
         assertEquals(this.testQuality.getCategories().size(), 2);
     }
 
@@ -70,45 +136,41 @@ public class QualityTest {
     public void testRemoveCategory() {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
-        
+
         this.testQuality.addCategory(category1);
         this.testQuality.addCategory(category2);
         this.testQuality.removeCategory(category1);
-        
+
         assertTrue(
-                this.testQuality.getCategories().contains(category1) == false
+                this.testQuality.getCategories().contains(category1)==false
                 &&this.testQuality.getCategories().contains(category2)
         );
     }
-    
+
     @Test
     public void testRemoveWrongCategory() {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
-        
+
         this.testQuality.addCategory(category1);
         this.testQuality.removeCategory(category2);
-        
+
         assertTrue(
-                this.testQuality.getCategories().contains(category1) == true
-                &&this.testQuality.getCategories().contains(category2) == false
+                this.testQuality.getCategories().contains(category1)==true
+                &&this.testQuality.getCategories().contains(category2)==false
         );
     }
-    
+
     @Test
     public void testGetImportance() {
         assertEquals(this.testQuality.getImportance(), Value.LOW);
     }
-    
+
     @Test
     public void testSetImportance() {
         this.testQuality.setImportance(Value.HIGH);
-        
+
         assertEquals(this.testQuality.getImportance(), Value.HIGH);
     }
 
-    
-
-    
-    
 }
