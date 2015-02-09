@@ -13,40 +13,62 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * Recommendation algorithm used to recommend Items to Users
  *
  * @author Ooppa
+ * @see Item
+ * @see User
  */
 public class Engine {
 
-    public ArrayList<RecommendedItem> rateItemsBasedOnQualities(Item source, ArrayList<Item> compares) {
+    /**
+     * Creates a RecommendedItem list from a source item compared to items
+     * given.
+     *
+     * @param source Source Item to compare to
+     * @param compares List of Item to compare to source
+     *
+     * @return Ordered list of RecommendedItems
+     *
+     * @see RecommendedItem
+     * @see Item
+     */
+    public ArrayList<RecommendedItem> rateItemsBasedOnQualities( Item source, ArrayList<Item> compares ) {
         ArrayList<RecommendedItem> recommends = new ArrayList<>(compares.size());
         ArrayList<Quality> sourceQualities = source.getQualities();
 
-        for(Item compare : compares) {
+        // For each item in the compare list...
+        for ( Item compare : compares ) {
             ArrayList<Quality> compareQualities = compare.getQualities();
             double recommendLevel = 0;
 
-            for(Quality sourceQuality : sourceQualities) {
-                for(Quality compareQuality : compareQualities) {
+            // compare it's qualities to the source item...
+            for ( Quality sourceQuality : sourceQualities ) {
+                for ( Quality compareQuality : compareQualities ) {
 
-                    if(sourceQuality.equals(compareQuality)) {
+                    // and if similar quality calculate the importance 
+                    // level between those two items...
+                    if ( sourceQuality.equals(compareQuality) ) {
                         recommendLevel
                                 += sourceQuality.getImportance().getValueAsDouble()
-                                *compareQuality.getImportance().getValueAsDouble();
+                                * compareQuality.getImportance().getValueAsDouble();
                     }
+                    // else ignore
 
                 }
             }
 
+            // after evaluation add to the final list
             recommends.add(new RecommendedItem(compare, recommendLevel));
         }
 
+        // sort the RecommendedItem and return it
         Collections.sort(recommends, new RecommendedItem());
 
         return recommends;
     }
 
-    public ArrayList<RecommendedItem> rateItemsBasedOnUserReviews(User user, ArrayList<Item> compares) {
+    public ArrayList<RecommendedItem> rateItemsBasedOnUserReviews( User user, ArrayList<Item> compares ) {
         ArrayList<RecommendedItem> recommends = new ArrayList<>(compares.size());
 
         // TODO
