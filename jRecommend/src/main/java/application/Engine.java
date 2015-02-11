@@ -8,6 +8,8 @@ package application;
 import domain.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Recommendation algorithm used to recommend Items to Users
@@ -18,9 +20,11 @@ import java.util.Collections;
  */
 public class Engine {
 
-    public Engine() {
-    }
+    private static final Logger logger = Logger.getLogger(Engine.class.getName());
 
+    public Engine() {
+        logger.log(Level.FINEST, "Engine created.");
+    }
 
     /**
      * Creates a RecommendedItem list from a source item compared to items
@@ -35,6 +39,7 @@ public class Engine {
      * @see Item
      */
     public ArrayList<RecommendedItem> rateItemsBasedOnQualities(Item source, ArrayList<Item> compares) {
+        logProcess("Starting to rateItemsBasedOnQualities for item "+ source.toString() +" with itemgroup size "+compares.size());
         ArrayList<RecommendedItem> recommends = new ArrayList<>(compares.size());
         ArrayList<Quality> sourceQualities = source.getQualities();
 
@@ -81,6 +86,7 @@ public class Engine {
      * @see Item
      */
     public ArrayList<RecommendedItem> rateItemsBasedOnQAverageRating(ArrayList<Item> items) {
+        logProcess("Starting to rateItemsBasedOnQAverageRating with itemgroup size "+items.size());
         ArrayList<RecommendedItem> recommends = new ArrayList<>(items.size());
 
         // Count average rating for each item given
@@ -127,6 +133,7 @@ public class Engine {
      * @see RecommendedItem
      */
     public ArrayList<RecommendedItem> rateItemsBasedOnUserReviews(User user, ArrayList<User> users, ArrayList<Item> compares) {
+        logProcess("Starting to rateItemsBasedOnUserReviews for user "+user.toString()+" with usergroup size "+users.size());
         ArrayList<RecommendedItem> recommends = new ArrayList<>(compares.size());
 
         // Create a list of users who are not our original user
@@ -143,8 +150,6 @@ public class Engine {
         // Find the most similar user amogst the "usersWhoHaveRatedItemsNotRatedByUser"
         ArrayList<SimilarUser> similarUsersBasedOnRatings = getSimilarUsersBasedOnRatings(user, usersWhoHaveRatedItemsNotRatedByUser);
 
-        // Take the most similar user (first in the list)
-        // SimilarUser mostSimilarUser = similarUsersBasedOnRatings.get(0);
         // Now we can start rating the items
         for(Item itemToBeRated : itemsNotRatedByUser) {
             // Most similar user who have rated this item
@@ -166,7 +171,7 @@ public class Engine {
      * Returns a list of items not rated by the given user
      */
     private ArrayList<Item> getItemsNotRatedByUser(User user, ArrayList<Item> otherItems) {
-
+        logProcess("Running getItemsNotRatedByUser for user "+user.toString());
         ArrayList<Rating> ratings = user.getRatings();
         ArrayList<Item> ratedItems = user.getRatedItems();
 
@@ -183,6 +188,7 @@ public class Engine {
      * Returns a list of users who have rated atleast one of the items given
      */
     private ArrayList<User> getUsersWhoHaveRated(ArrayList<User> users, ArrayList<Item> items) {
+        logProcess("Running getUsersWhoHaveRated");
         ArrayList<User> usersWhoRated = new ArrayList<>();
 
         for(User user : users) {
@@ -201,6 +207,7 @@ public class Engine {
      * Returns ordered list of similar users based on ratings
      */
     private ArrayList<SimilarUser> getSimilarUsersBasedOnRatings(User user, ArrayList<User> otherUsers) {
+        logProcess("Running getSimilarUsersBasedOnRatings for user "+user.toString());
         ArrayList<SimilarUser> similarUsers = new ArrayList<>();
 
         for(User otherUser : otherUsers) {
@@ -234,6 +241,7 @@ public class Engine {
      * Returns the most similar user who have rated given item
      */
     private SimilarUser getMostSimilarUserWhoHasRatedItem(Item item, ArrayList<SimilarUser> similarUsers) {
+        logProcess("Running getMostSimilarUserWhoHasRatedItem for item "+item.toString());
         for(SimilarUser similarUser : similarUsers) {
             if(item.getUsersRating(similarUser.getUser())!=Star.ZERO) {
                 return similarUser;
@@ -257,6 +265,10 @@ public class Engine {
         }
 
         return false;
+    }
+
+    private void logProcess(String message) {
+        logger.log(Level.INFO, message);
     }
 
 }
