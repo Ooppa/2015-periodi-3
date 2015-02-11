@@ -28,6 +28,7 @@ public class User {
      * @param id        the unique id for the user
      * @param firstName user's first name
      * @param lastName  user's last name
+     *
      * @see Rating
      */
     public User(long id, String firstName, String lastName) {
@@ -95,6 +96,23 @@ public class User {
         if(this.ratings.contains(rating)) {
             this.ratings.remove(rating);
         }
+    }
+
+    /**
+     * Returns a list of Items rated by this user
+     *
+     * @return A list of Items rated by this user
+     *
+     * @see Item
+     */
+    public ArrayList<Item> getRatedItems() {
+        ArrayList<Item> itemsRated = new ArrayList<>();
+
+        for(Rating rating : ratings) {
+            itemsRated.add(rating.getItem());
+        }
+
+        return itemsRated;
     }
 
     @Override
