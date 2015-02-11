@@ -156,4 +156,26 @@ public class Item extends AbstractElement {
         }
     }
 
+    /**
+     * Get given Users rating for this item. Returns Zero stars if the user
+     * haven't rated this item.
+     *
+     * @param user User to get the rating from
+     *
+     * @return Stars given to this Item from given User
+     *
+     * @see User
+     * @see Star
+     */
+    public Star getUsersRating(User user) {
+        for(Rating rating : ratings) {
+            if(rating.getCreator().equals(user)) {
+                return rating.getStarsGiven();
+            }
+        }
+
+        // Havn't given any rating to that item
+        return Star.ZERO;
+    }
+
 }

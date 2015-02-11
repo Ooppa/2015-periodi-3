@@ -5,7 +5,6 @@
  */
 package application;
 
-import generators.TestDataGenerator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +23,9 @@ public class Application {
             logger.setLevel(Level.OFF);
         }
         
-        TestDataGenerator data = new TestDataGenerator(true, 1000);
+        // TODO: Currently broken (java.lang.IndexOutOfBoundsException)
+        // Will look into it a bit later...
+        Example example = new Example();
         
     }
     

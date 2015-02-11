@@ -18,6 +18,10 @@ import java.util.Collections;
  */
 public class Engine {
 
+    public Engine() {
+    }
+
+
     /**
      * Creates a RecommendedItem list from a source item compared to items
      * given.
@@ -106,7 +110,11 @@ public class Engine {
     }
 
     /**
-     * TODO HEADER
+     * Creates a list of Recommended items based on slightly modified version of
+     * Slope One algorithm. Basic principle is that we take list of other users
+     * and compare their similarity level to the source use and then we count
+     * what amount of stars the user would give the the item based on the stars
+     * that similar users have given.
      *
      * @param user     User to give the recommendations to
      * @param users    Other users include in the recommendation
@@ -132,11 +140,25 @@ public class Engine {
         // items that our user has not rated.
         ArrayList<User> usersWhoHaveRatedItemsNotRatedByUser = getUsersWhoHaveRated(otherUsers, itemsNotRatedByUser);
 
-        // At this point we have items we want to recommend in "itemsNotRatedByUser"
-        // and we have people who can tell us if we want to recommend in "usersWhoHaveRatedItemsNotRatedByUser"
-        
-        // TODO
-        
+        // Find the most similar user amogst the "usersWhoHaveRatedItemsNotRatedByUser"
+        ArrayList<SimilarUser> similarUsersBasedOnRatings = getSimilarUsersBasedOnRatings(user, usersWhoHaveRatedItemsNotRatedByUser);
+
+        // Take the most similar user (first in the list)
+        // SimilarUser mostSimilarUser = similarUsersBasedOnRatings.get(0);
+        // Now we can start rating the items
+        for(Item itemToBeRated : itemsNotRatedByUser) {
+            // Most similar user who have rated this item
+            SimilarUser mostSimilarUserWhoHasRatedItem = getMostSimilarUserWhoHasRatedItem(itemToBeRated, similarUsersBasedOnRatings);
+
+            // Recommendation level is now the (stars given by the most similar user) + (their similarity)
+            double recommendationLevel = itemToBeRated.getUsersRating(mostSimilarUserWhoHasRatedItem.getUser()).getAmountAsInt()
+                    +mostSimilarUserWhoHasRatedItem.getSimilarityLevel();
+
+            recommends.add(new RecommendedItem(itemToBeRated, recommendationLevel));
+        }
+
+        Collections.sort(recommends, new RecommendedItem());
+
         return recommends;
     }
 
@@ -173,6 +195,53 @@ public class Engine {
         }
 
         return usersWhoRated;
+    }
+
+    /*
+     * Returns ordered list of similar users based on ratings
+     */
+    private ArrayList<SimilarUser> getSimilarUsersBasedOnRatings(User user, ArrayList<User> otherUsers) {
+        ArrayList<SimilarUser> similarUsers = new ArrayList<>();
+
+        for(User otherUser : otherUsers) {
+            ArrayList<Rating> otherUsersRatings = otherUser.getRatings();
+
+            int similaritySum = 0;
+
+            for(Rating otherUsersRating : otherUsersRatings) {
+
+                Item ratedItem = otherUsersRating.getItem();
+                Star originalUsersStarsGiven = ratedItem.getUsersRating(user);
+                Star otherUsersStarsGiven = otherUsersRating.getStarsGiven();
+
+                // TODO: Math abs or not?
+                int remainder = originalUsersStarsGiven.getAmountAsInt()
+                        -otherUsersStarsGiven.getAmountAsInt();
+
+                similaritySum += remainder;
+            }
+
+            similarUsers.add(new SimilarUser(user, similaritySum));
+
+        }
+
+        Collections.sort(similarUsers, new SimilarUser());
+
+        return similarUsers;
+    }
+
+    /*
+     * Returns the most similar user who have rated given item
+     */
+    private SimilarUser getMostSimilarUserWhoHasRatedItem(Item item, ArrayList<SimilarUser> similarUsers) {
+        for(SimilarUser similarUser : similarUsers) {
+            if(item.getUsersRating(similarUser.getUser())!=Star.ZERO) {
+                return similarUser;
+            }
+        }
+
+        // Returns the first user on the list if none found
+        return similarUsers.get(0);
     }
 
     /*

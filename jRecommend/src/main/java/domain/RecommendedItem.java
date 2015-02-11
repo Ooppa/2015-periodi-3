@@ -14,12 +14,13 @@ import java.util.logging.Logger;
  * Used to save Items recommendation level
  *
  * @author Ooppa
+ * @see Item
  */
 public class RecommendedItem implements Comparator<RecommendedItem> {
 
     private Item item;
     private double ratingLevel;
-    
+
     private static final Logger logger = Logger.getLogger(RecommendedItem.class.getName());
 
     /**
@@ -31,10 +32,10 @@ public class RecommendedItem implements Comparator<RecommendedItem> {
      * @see Item
      */
     public RecommendedItem(Item item, double rating) {
-        if(item==null){
+        if(item==null) {
             logger.log(Level.WARNING, "Trying to create RecommendedItem with a null parameter.");
         }
-        
+
         this.item = item;
         this.ratingLevel = rating;
     }
