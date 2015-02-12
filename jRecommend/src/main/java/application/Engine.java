@@ -39,7 +39,7 @@ public class Engine {
      * @see Item
      */
     public ArrayList<RecommendedItem> rateItemsBasedOnQualities(Item source, ArrayList<Item> compares) {
-        logProcess("Starting to rateItemsBasedOnQualities for item "+ source.toString() +" with itemgroup size "+compares.size());
+        logProcess("Starting to rateItemsBasedOnQualities for item "+source.toString()+" with itemgroup size "+compares.size());
         ArrayList<RecommendedItem> recommends = new ArrayList<>(compares.size());
         ArrayList<Quality> sourceQualities = source.getQualities();
 
