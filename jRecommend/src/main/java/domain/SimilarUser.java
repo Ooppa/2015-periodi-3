@@ -5,8 +5,6 @@ package domain;
  * Helsingin yliopisto Tietojenkäsittelytieteen laitos
  * Ooppa 2015 - GNU General Public License, version 3.
  */
-
-import domain.User;
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -79,6 +77,11 @@ public class SimilarUser implements Comparator<SimilarUser> {
     }
 
     @Override
+    public String toString() {
+        return this.user.toString() +" with similarity value of"+ this.similarityLevel;
+    }
+
+    @Override
     public int hashCode() {
         int hash = 7;
         hash = 17*hash+Objects.hashCode(this.user);
@@ -102,7 +105,7 @@ public class SimilarUser implements Comparator<SimilarUser> {
 
     @Override
     public int compare(SimilarUser user, SimilarUser otherUser) {
-        return Double.compare(user.getSimilarityLevel(), otherUser.getSimilarityLevel());
+        return Double.compare(otherUser.getSimilarityLevel(), user.getSimilarityLevel());
     }
 
 }

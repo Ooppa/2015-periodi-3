@@ -96,7 +96,7 @@ public class RecommendedItem implements Comparator<RecommendedItem> {
 
     @Override
     public int compare(RecommendedItem item, RecommendedItem otherItem) {
-        return Double.compare(item.getRatingLevel(), otherItem.getRatingLevel());
+        return Double.compare(otherItem.getRatingLevel(), item.getRatingLevel());
     }
 
     @Override

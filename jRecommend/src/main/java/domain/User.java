@@ -5,22 +5,20 @@
  */
 package domain;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Defines the user which gives ratings for items
  *
  * @author Ooppa
  */
-public class User {
-
-    private final long id;
-    private String firstName, lastName;
+public class User extends AbstractElement {
 
     /*
      * Ratings given by the user
      */
-    private ArrayList<Rating> ratings;
+    private AbstractElementHashMap ratings;
 
     /**
      * Creates a new user
@@ -31,71 +29,16 @@ public class User {
      *
      * @see Rating
      */
-    public User(long id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.ratings = new ArrayList<>();
+    public User(long id, String name) {
+        super(id, name);
+        this.ratings = new AbstractElementHashMap();
     }
 
     /**
-     * Returns users unique id
-     *
-     * @return id users id
+     * @return the ratings made by User
      */
-    public long getId() {
-        return this.id;
-    }
-
-    /**
-     * Returns users first name
-     *
-     * @return firstName users first name
-     */
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    /**
-     * Returns users last name
-     *
-     * @return lastName users last name
-     */
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    /**
-     * Returns a list of ratings given by the user
-     *
-     * @see Rating
-     * @return ratings ratings given by the user
-     */
-    public ArrayList<Rating> getRatings() {
-        return this.ratings;
-    }
-
-    /**
-     * Add a new rating to this user
-     *
-     * @see Rating
-     * @param rating rating to add
-     */
-    public void addRating(Rating rating) {
-        if(!this.ratings.contains(rating)) {
-            this.ratings.add(rating);
-        }
-    }
-
-    /**
-     * Remove the rating given from the user
-     *
-     * @param rating rating to remove
-     */
-    public void removeRating(Rating rating) {
-        if(this.ratings.contains(rating)) {
-            this.ratings.remove(rating);
-        }
+    public AbstractElementHashMap getRatings() {
+        return ratings;
     }
 
     /**
@@ -105,11 +48,14 @@ public class User {
      *
      * @see Item
      */
-    public ArrayList<Item> getRatedItems() {
-        ArrayList<Item> itemsRated = new ArrayList<>();
+    public HashMap<Long, Item> getRatedItems() {
+        HashMap<Long, Item> itemsRated = new HashMap<>();
 
-        for(Rating rating : ratings) {
-            itemsRated.add(rating.getItem());
+        for(Map.Entry<Long, Item> entrySet : itemsRated.entrySet()) {
+            Long key = entrySet.getKey();
+            Item itemRated = entrySet.getValue();
+
+            itemsRated.put(itemRated.getId(), itemRated);
         }
 
         return itemsRated;
@@ -117,29 +63,7 @@ public class User {
 
     @Override
     public String toString() {
-        return this.id+": "+this.firstName+" "+this.lastName;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 23*hash+(int) (this.id^(this.id>>>32));
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(obj==null) {
-            return false;
-        }
-        if(getClass()!=obj.getClass()) {
-            return false;
-        }
-        final User other = (User) obj;
-        if(this.id!=other.id) {
-            return false;
-        }
-        return true;
+        return super.toString()+" with "+this.getRatings().size()+" ratings.";
     }
 
 }

@@ -6,8 +6,7 @@
 package generators;
 
 import domain.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,11 +22,11 @@ public class TestDataGenerator {
     private final boolean debug;
     private final long startingTime;
 
-    private ArrayList<User> users;
-    private ArrayList<Item> items;
-    private ArrayList<Category> categories;
-    private ArrayList<Quality> qualities;
-    private ArrayList<Rating> ratings;
+    private HashMap<Long, User> users;
+    private HashMap<Long, Item> items;
+    private HashMap<Long, Category> categories;
+    private HashMap<Long, Quality> qualities;
+    private HashMap<User, Rating> ratings;
 
     private static final Logger logger = Logger.getLogger(TestDataGenerator.class.getName());
 
@@ -85,7 +84,7 @@ public class TestDataGenerator {
      *
      * @see User
      */
-    public ArrayList<User> getUsers() {
+    public HashMap<Long, User> getUsers() {
         return users;
     }
 
@@ -96,7 +95,7 @@ public class TestDataGenerator {
      *
      * @see Item
      */
-    public ArrayList<Item> getItems() {
+    public HashMap<Long, Item> getItems() {
         return items;
     }
 
@@ -107,7 +106,7 @@ public class TestDataGenerator {
      *
      * @see Quality
      */
-    public ArrayList<Quality> getQualities() {
+    public HashMap<Long, Quality> getQualities() {
         return qualities;
     }
 
@@ -118,7 +117,7 @@ public class TestDataGenerator {
      *
      * @see Category
      */
-    public ArrayList<Category> getCategories() {
+    public HashMap<Long, Category> getCategories() {
         return categories;
     }
 
@@ -129,7 +128,7 @@ public class TestDataGenerator {
      *
      * @see Rating
      */
-    public ArrayList<Rating> getRatings() {
+    public HashMap<User, Rating> getRatings() {
         return ratings;
     }
 
@@ -187,7 +186,7 @@ public class TestDataGenerator {
         assingQualitiesToItems();
         assingCategoriesToItems();
 
-        createRatings();
+        createRatings(scale);
 
         printTotals();
     }
@@ -200,10 +199,11 @@ public class TestDataGenerator {
             System.out.println(debugTimestamp()+"Creating "+amount+" users.");
         }
 
-        users = new ArrayList<>(amount);
+        users = new HashMap<>(amount);
 
         for(int i = 0; i<amount; i++) {
-            users.add(new User(i, "Firstname "+i, "Lastname "+i));
+            User user = new User(i, "Firstname Lastname "+i);
+            users.put(new Long(i), user);
         }
 
     }
@@ -216,10 +216,12 @@ public class TestDataGenerator {
             System.out.println(debugTimestamp()+"Creating "+amount+" items.");
         }
 
-        items = new ArrayList<>(amount);
+        items = new HashMap<>(amount);
 
         for(int i = 0; i<amount; i++) {
-            items.add(new Item(i, "Item number: "+i));
+            Item item = new Item(i, "Item number: "+i);
+            item.setDescription(getUUID());
+            items.put(new Long(i), item);
         }
     }
 
@@ -231,10 +233,13 @@ public class TestDataGenerator {
             System.out.println(debugTimestamp()+"Creating "+amount+" qualities.");
         }
 
-        qualities = new ArrayList<>(amount);
+        qualities = new HashMap<>(amount);
 
         for(int i = 0; i<amount; i++) {
-            qualities.add(new Quality(i, "Qualitys number: "+i));
+            Quality quality = new Quality(i, "Qualitys number: "+i);
+            quality.setImportance(randomImportanceValue());
+            quality.setDescription(getUUID());
+            qualities.put(new Long(i), quality);
         }
     }
 
@@ -246,10 +251,12 @@ public class TestDataGenerator {
             System.out.println(debugTimestamp()+"Creating "+amount+" categories.");
         }
 
-        categories = new ArrayList<>(amount);
+        categories = new HashMap<>(amount);
 
         for(int i = 0; i<amount; i++) {
-            categories.add(new Category(i, "Category number: "+i));
+            Category category = new Category(i, "Category number: "+i);
+            category.setDescription(getUUID());
+            categories.put(new Long(i), category);
         }
     }
 
@@ -263,8 +270,10 @@ public class TestDataGenerator {
             System.out.println(debugTimestamp()+"Giving items (with maximum of "+upperScale+" items with one quality) their qualities.");
         }
 
-        for(Quality quality : qualities) {
-            // Amount of items this category will be assigned to
+        for(Map.Entry<Long, Quality> entrySet : qualities.entrySet()) {
+            Long key = entrySet.getKey();
+            Quality quality = entrySet.getValue();
+
             int toItems = randomInteger(upperScale/2, upperScale);
 
             // Assigning process
@@ -272,11 +281,13 @@ public class TestDataGenerator {
                 // Random slot the quality will be added to
                 int itemId = randomInteger(1, items.size()-1);
                 // Duplicates should not be a problem
-                Item item = items.get(itemId);
-                item.addQuality(quality);
-                quality.addItem(item);
+                Item item = items.get((long) itemId);
+                item.getQualities().add(quality);
+
             }
+
         }
+
     }
 
     /*
@@ -287,34 +298,54 @@ public class TestDataGenerator {
             System.out.println(debugTimestamp()+"Giving items (every item has a category) their categories.");
         }
 
-        for(Item item : items) {
-            int randomCategoryId = randomInteger(1, categories.size()-1);
-            Category category = categories.get(randomCategoryId);
+        for(Map.Entry<Long, Item> entrySet : items.entrySet()) {
+            Long key = entrySet.getKey();
+            Item item = entrySet.getValue();
 
-            item.addCategory(category);
+            int randomCategoryId = randomInteger(1, categories.size()-1);
+            Category category = categories.get((long) randomCategoryId);
+
+            item.getCategories().add(category);
             category.addElement(item);
         }
+
     }
 
     /*
      * Creates and assigns ratings to items and users
      */
-    private void createRatings() {
-        ratings = new ArrayList<>();
-        int range = (int) Math.round(users.size()*0.01);
+    private void createRatings(int scale) {
+        ratings = new HashMap<>();
+        
+        int ratingId = 0;
 
         if(debug) {
-            System.out.println(debugTimestamp()+"Giving items ratings from users (with range "+range+").");
+            System.out.println(debugTimestamp()+"Giving items ratings from users.");
         }
 
-        for(Item item : items) {
-            int startingPoint = randomInteger(0, users.size()-range);
-            for(int i = startingPoint; i<range; i++) {
-                User user = users.get(i);
-                Rating rating = new Rating(user, item, randomStar());
-                item.addRating(rating);
-                ratings.add(rating);
+        for(Map.Entry<Long, User> entrySet : users.entrySet()) {
+            Long key = entrySet.getKey();
+            User user = entrySet.getValue();
+
+            int amountToRate = this.randomInteger(0, scale/3);
+
+            for(int i = 0; i<amountToRate; i++) {
+                // We pull random integer to state the index of the rated item
+                int indexOfItemToRate = this.randomInteger(0, items.size()-1);
+
+                Item item = items.get((long) indexOfItemToRate);
+                Rating rating = new Rating(ratingId++, user, item, randomStar());
+
+                // If item has already been rated by this user it will not be added
+                item.getRatings().add(rating);
+                user.getRatings().add(rating);
+                ratings.put(user, rating);
             }
+
+            if(user.getId()==(long) users.size()/2) {
+                break; // cut when half of them are through
+            }
+
         }
 
     }
@@ -338,11 +369,33 @@ public class TestDataGenerator {
     }
 
     /*
+     * Provides a random importance value for quality generation
+     */
+    private Value randomImportanceValue() {
+        Value[] values = Value.values();
+        return values[randomInteger(0, values.length-1)];
+    }
+
+    /*
      * Provides random star for rating generation
      */
     private Star randomStar() {
-        Star[] stars = new Star[] {Star.ZERO, Star.ONE, Star.TWO, Star.THREE, Star.FOUR, Star.FIFE};
+        Star[] stars = Star.values();
         return stars[randomInteger(0, stars.length-1)];
+    }
+
+    /*
+     * Provides a random boolean
+     */
+    private boolean randomBoolean() {
+        return this.random.nextBoolean();
+    }
+
+    /*
+     * Returns a UUID as a String for filler content in examples
+     */
+    private String getUUID() {
+        return UUID.randomUUID().toString();
     }
 
     /*

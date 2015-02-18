@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author Ooppa
  */
-public class Rating {
+public class Rating extends AbstractElement {
 
     /*
      * Reason who gave the rating
@@ -36,18 +36,8 @@ public class Rating {
      */
     private final long timestamp;
 
-    /**
-     *
-     * @param id         the unique id for the given rating
-     * @param creator    the creator of the rating
-     * @param item       the item rated in the rating
-     * @param starsGiven the star rating given in the rating
-     *
-     * @see User
-     * @see Item
-     * @see Star
-     */
-    public Rating(User creator, Item item, Star starsGiven) {
+    public Rating(long id, User creator, Item item, Star starsGiven) {
+        super(id, "Rating");
         this.creator = creator;
         this.item = item;
         this.starsGiven = starsGiven;
@@ -87,7 +77,7 @@ public class Rating {
 
     @Override
     public String toString() {
-        return "Rating: "+this.starsGiven.toString()+" by "+this.creator.toString();
+        return "Rating: "+this.starsGiven.toString()+" by "+this.creator.toString()+ "  @"+ this.timestamp;
     }
 
     @Override

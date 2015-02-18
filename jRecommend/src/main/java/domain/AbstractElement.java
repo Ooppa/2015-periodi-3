@@ -16,9 +16,10 @@ public abstract class AbstractElement {
     private String name, description;
 
     /**
+     * Creates a new AbstractElement
      *
-     * @param id
-     * @param name
+     * @param id   Unique Id the of AbstractElement
+     * @param name Name of the AbstractElement
      */
     public AbstractElement(long id, String name) {
         this.id = id;
@@ -28,7 +29,7 @@ public abstract class AbstractElement {
     /**
      * Get unique id of the AbstractElement
      *
-     * @return
+     * @return Unique id of the AbstractElement
      */
     public long getId() {
         return this.id;
@@ -37,7 +38,7 @@ public abstract class AbstractElement {
     /**
      * Get the name of the AbstractElement
      *
-     * @return
+     * @return Name
      */
     public String getName() {
         return this.name;
@@ -55,10 +56,10 @@ public abstract class AbstractElement {
     /**
      * Get the description of the AbstractElement
      *
-     * @return
+     * @return Description
      */
     public String getDescription() {
-        if( this.description == null){
+        if(this.description==null) {
             return "No description";
         } else {
             return this.description;
@@ -76,7 +77,7 @@ public abstract class AbstractElement {
 
     @Override
     public String toString() {
-        return getName() + " ("+ getDescription() + ")";
+        return getName()+" ("+getDescription()+")";
     }
 
     @Override

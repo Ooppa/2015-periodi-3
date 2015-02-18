@@ -5,8 +5,6 @@
  */
 package domain;
 
-import java.util.ArrayList;
-
 /**
  * Defines what special qualities (features) are in certain item.
  *
@@ -17,12 +15,12 @@ public class Quality extends AbstractElement {
     /*
      * Categories this Quality belongs to
      */
-    private final ArrayList<Category> categories;
+    private AbstractElementHashMap categories;
 
     /*
      * Items this quality is accociated with
      */
-    private final ArrayList<Item> items;
+    private AbstractElementHashMap items;
 
     /*
      * The Value of this Quality for the item associated
@@ -40,80 +38,22 @@ public class Quality extends AbstractElement {
      */
     public Quality(long id, String name) {
         super(id, name);
-        this.categories = new ArrayList<>();
-        this.items = new ArrayList<>();
+        this.categories = new AbstractElementHashMap();
+        this.items = new AbstractElementHashMap();
     }
 
     /**
-     * Returns a list of categories this Quality belongs to
-     *
-     * @see Category
-     * @return a list of categories
+     * @return the categories associated with the Quality
      */
-    public ArrayList<Category> getCategories() {
+    public AbstractElementHashMap getCategories() {
         return categories;
     }
 
     /**
-     * Add a new category for this quality
-     *
-     * @see Category
-     * @param category category to add
+     * @return the items associated with the Quality
      */
-    public void addCategory(Category category) {
-        if(this.categories.contains(category)==false) {
-            this.categories.add(category);
-        }
-    }
-
-    /**
-     * Remove a category from this quality
-     *
-     * @param category category to remove
-     *
-     * @see Category
-     */
-    public void removeCategory(Category category) {
-        if(this.categories.contains(category)) {
-            this.categories.remove(category);
-        }
-    }
-
-    /**
-     * Returns a list of items this Quality belongs to
-     *
-     * @see Item
-     * @return a list of items
-     */
-    public ArrayList<Item> getItems() {
+    public AbstractElementHashMap getItems() {
         return items;
-    }
-    
-
-    /**
-     * Add a new item associated with this quality
-     *
-     * @param Item item to add
-     *
-     * @see Item
-     */
-    public void addItem(Item item) {
-        if(this.items.contains(item)==false&&item != null) {
-            this.items.add(item);
-        }
-    }
-
-    /**
-     * Remove a item associated with this quality
-     *
-     * @param item item to remove
-     *
-     * @see Item
-     */
-    public void removeItem(Item item) {
-        if(this.items.contains(item)) {
-            this.items.remove(item);
-        }
     }
 
     /**
@@ -136,6 +76,11 @@ public class Quality extends AbstractElement {
      */
     public void setImportance(Value importance) {
         this.importance = importance;
+    }
+
+    @Override
+    public String toString() {
+        return "Quality: "+super.toString()+" for "+this.getItems().size()+" items.";
     }
 
 }

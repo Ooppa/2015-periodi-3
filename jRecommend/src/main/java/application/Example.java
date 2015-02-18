@@ -5,10 +5,7 @@
  */
 package application;
 
-import domain.RecommendedItem;
-import domain.User;
 import generators.TestDataGenerator;
-import java.util.ArrayList;
 
 /**
  * Example of the algorithm in action
@@ -17,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Example {
 
-    private TestDataGenerator data;
+    private final TestDataGenerator data;
 
     /**
      * Creates a new Example to be used to try out the algorithm
@@ -25,28 +22,10 @@ public class Example {
     public Example() {
         // Start by generating the test data.
         data = new TestDataGenerator(true, 1000);
-
-        Engine engine = new Engine();
-
-        // We get our example user
-        User exampleUser = data.getUsers().get(0);
-
-        // Using Slope One
-        ArrayList<RecommendedItem> rateItemsBasedOnUserReviews = engine.rateItemsBasedOnUserReviews(exampleUser, data.getUsers(), data.getItems());
-
-        // Print TOP-10 recommendations for the example user
-        for(int i = 0; i<10; i++) {
-            RecommendedItem item = rateItemsBasedOnUserReviews.get(i);
-
-            System.out.println(i+": "+item.toString());
-
-            ArrayList<RecommendedItem> rateItemsBasedOnQualities = engine.rateItemsBasedOnQualities(item.getItem(), data.getItems());
-
-            // And similar items to the top-10 list
-            for(int j = 0; j<5; j++) {
-                System.out.println("\t"+i+": "+rateItemsBasedOnQualities.get(i).toString());
-            }
-        }
+        
+        // THIS WILL BE CODED AGAIN WITH PROPER CLASS
+        
+        // new one is Algorithm algorithm = new Algorithm();
 
     }
 

@@ -5,7 +5,7 @@
  */
 package domain;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Used to separate certain items from each other.
@@ -15,11 +15,11 @@ import java.util.ArrayList;
  */
 public class Category<E> extends AbstractElement {
 
-    private ArrayList<E> elements;
+    private HashMap<Long, AbstractElement> elements;
 
     public Category(long id, String name) {
         super(id, name);
-        this.elements = new ArrayList<>();
+        this.elements = new HashMap<>();
     }
     
     /**
@@ -27,7 +27,7 @@ public class Category<E> extends AbstractElement {
      *
      * @return elements a list of elements currently in this category
      */
-    public ArrayList<E> getElements() {
+    public HashMap<Long, AbstractElement> getElements() {
         return elements;
     }
 
@@ -36,9 +36,9 @@ public class Category<E> extends AbstractElement {
      *
      * @param element element to add
      */
-    public void addElement(E element) {
-        if(this.elements.contains(element) == false && element != null) {
-            this.elements.add(element);
+    public void addElement(AbstractElement element) {
+        if(this.elements.containsValue(element) == false && element != null){
+            this.elements.put(element.getId(), element);
         }
     }
 
@@ -47,9 +47,9 @@ public class Category<E> extends AbstractElement {
      *
      * @param element element to remove
      */
-    public void removeElement(E element) {
-        if(this.elements.contains(element)) {
-            this.elements.remove(element);
+    public void removeElement(AbstractElement element) {
+        if(this.elements.containsValue(element)){
+            this.elements.remove(element.getId(), element);
         }
     }
 

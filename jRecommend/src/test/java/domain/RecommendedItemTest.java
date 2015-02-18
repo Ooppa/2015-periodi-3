@@ -85,7 +85,7 @@ public class RecommendedItemTest {
         RecommendedItem otherRecommendedItem = new RecommendedItem(otherItem, 111.1);
         assertEquals(
                 new RecommendedItem().compare(recommendedItem, otherRecommendedItem),
-                1
+                -1
         );
     }
 
