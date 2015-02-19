@@ -63,22 +63,22 @@ public class ItemTest {
     @Test
     public void testGetCategoriesWhenSome() {
         Category category = new Category(1L, "Category");
-        this.testItem.addCategory(category);
+        this.testItem.getCategories().add(category);
 
         assertTrue(testItem.getCategories().contains(category));
     }
 
     @Test
     public void testAddCategoryWhenNull() {
-        this.testItem.addCategory(null);
+        this.testItem.getCategories().add(null);
         assertFalse(testItem.getCategories().contains(null));
     }
 
     @Test
     public void testAddCategoryWhenDuplicates() {
         Category category = new Category(1L, "Category");
-        this.testItem.addCategory(category);
-        this.testItem.addCategory(category);
+        this.testItem.getCategories().add(category);
+        this.testItem.getCategories().add(category);
 
         assertEquals(testItem.getCategories().size(), 1);
     }
@@ -88,10 +88,10 @@ public class ItemTest {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
 
-        this.testItem.addCategory(category1);
-        this.testItem.addCategory(category2);
+        this.testItem.getCategories().add(category1);
+        this.testItem.getCategories().add(category2);
 
-        this.testItem.removeCategory(category1);
+        this.testItem.getCategories().add(category1);
 
         assertTrue(this.testItem.getCategories().contains(category1)==false
                 &&this.testItem.getCategories().contains(category2));
@@ -102,9 +102,9 @@ public class ItemTest {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
 
-        this.testItem.addCategory(category1);
+        this.testItem.getCategories().add(category1);
 
-        this.testItem.removeCategory(category2);
+        this.testItem.getCategories().remove(category2);
 
         assertTrue(this.testItem.getCategories().contains(category1)==true
                 &&this.testItem.getCategories().contains(category2)==false);
@@ -117,14 +117,14 @@ public class ItemTest {
 
     @Test
     public void testAddQualityWhenNull() {
-        this.testItem.addQuality(null);
+        this.testItem.getQualities().add(null);
         assertEquals(this.testItem.getQualities().size(), 0);
     }
 
     @Test
     public void testGetQualitiesWhenSome() {
-        this.testItem.addQuality(new Quality(1L, "Smooth"));
-        this.testItem.addQuality(new Quality(2L, "Big"));
+        this.testItem.getQualities().add(new Quality(1L, "Smooth"));
+        this.testItem.getQualities().add(new Quality(2L, "Big"));
 
         assertEquals(this.testItem.getQualities().size(), 2);
     }
@@ -136,9 +136,9 @@ public class ItemTest {
 
         for(int i = 1; i<=10; i++) {
             if(i%2==0) {
-                this.testItem.addQuality(smooth);
+                this.testItem.getQualities().add(smooth);
             } else {
-                this.testItem.addQuality(big);
+                this.testItem.getQualities().add(big);
             }
         }
 
@@ -150,10 +150,10 @@ public class ItemTest {
         Quality smooth = new Quality(1L, "Smooth");
         Quality big = new Quality(2L, "Big");
 
-        this.testItem.addQuality(smooth);
-        this.testItem.addQuality(big);
+        this.testItem.getQualities().add(smooth);
+        this.testItem.getQualities().add(big);
 
-        this.testItem.removeQuality(smooth);
+        this.testItem.getQualities().remove(smooth);
 
         assertEquals(this.testItem.getQualities().contains(big), true);
     }
@@ -163,9 +163,9 @@ public class ItemTest {
         Quality smooth = new Quality(1L, "Smooth");
         Quality big = new Quality(2L, "Big");
 
-        this.testItem.addQuality(smooth);
+        this.testItem.getQualities().add(smooth);
 
-        this.testItem.removeQuality(big);
+        this.testItem.getQualities().remove(big);
 
         assertTrue(this.testItem.getQualities().contains(big)==false
                 &&this.testItem.getQualities().contains(smooth)==true);
