@@ -5,6 +5,8 @@
  */
 package application;
 
+import domain.Item;
+import domain.Quality;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,8 +25,14 @@ public class Application {
         } catch(IllegalArgumentException|ArrayIndexOutOfBoundsException exception) {
             logger.setLevel(Level.OFF);
         }
-
-        Example example = new Example();
+        
+        Item item = new Item(1L, "Peruna");
+        Quality quality = new Quality(1L, "Perunainen");
+        
+        System.out.println(item.getClass().toString());
+        System.out.println(quality.getClass().toString());
+        
+        //Example example = new Example();
 
     }
 

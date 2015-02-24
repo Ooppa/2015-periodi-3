@@ -82,7 +82,7 @@ public class Rating extends AbstractElement {
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
         hash = 89*hash+Objects.hashCode(this.creator);
         hash = 89*hash+Objects.hashCode(this.item);
         return hash;
@@ -105,5 +105,6 @@ public class Rating extends AbstractElement {
         }
         return true;
     }
+
 
 }

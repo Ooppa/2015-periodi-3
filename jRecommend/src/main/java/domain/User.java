@@ -23,9 +23,8 @@ public class User extends AbstractElement {
     /**
      * Creates a new user
      *
-     * @param id        the unique id for the user
-     * @param firstName user's first name
-     * @param lastName  user's last name
+     * @param id   the unique id for the user
+     * @param name name of the user
      *
      * @see Rating
      */

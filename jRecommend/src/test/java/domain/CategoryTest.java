@@ -72,27 +72,24 @@ public class CategoryTest {
         Item item = new Item(1L, "Peruna");
         this.testCategory.addElement(item);
 
-        assertTrue(this.testCategory.getElements().contains(item));
+        assertTrue(this.testCategory.contains(item));
     }
     
     @Test
     public void testAddNullElement() {
         this.testCategory.addElement(null);
-        assertFalse(this.testCategory.getElements().contains(null));
+        assertFalse(this.testCategory.contains(null));
     }
 
     @Test
-    public void testAddDifferentElements() {
+    public void testAddDifferentElementsOverridesPrevious() {
         Item item = new Item(1L, "Peruna");
         Quality quality = new Quality(1L, "Perunainen");
 
         this.testCategory.addElement(item);
         this.testCategory.addElement(quality);
 
-        assertTrue(
-                this.testCategory.getElements().contains(item)
-                &&this.testCategory.getElements().contains(quality)
-        );
+        assertTrue(this.testCategory.contains(quality));
     }
 
     @Test
@@ -105,8 +102,8 @@ public class CategoryTest {
         this.testCategory.removeElement(item);
 
         assertTrue(
-                this.testCategory.getElements().contains(item)==false
-                &&this.testCategory.getElements().contains(quality)
+                this.testCategory.contains(item)==false
+                &&this.testCategory.contains(quality)
         );
     }
     
@@ -119,8 +116,8 @@ public class CategoryTest {
         this.testCategory.removeElement(quality);
 
         assertTrue(
-                this.testCategory.getElements().contains(item)==true
-                &&this.testCategory.getElements().contains(quality)==false
+                this.testCategory.contains(item)==true
+                &&this.testCategory.contains(quality)==false
         );
     }
 

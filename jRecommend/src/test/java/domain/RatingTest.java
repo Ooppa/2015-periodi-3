@@ -23,10 +23,10 @@ public class RatingTest {
 
     @Before
     public void setUp() {
-        User creator = new User(1L, "Test", "User");
+        User creator = new User(1L, "Test User");
         Item item = new Item(1L, "Test Item");
 
-        this.testRating = new Rating(creator, item, Star.THREE);
+        this.testRating = new Rating(1L, creator, item, Star.THREE);
     }
 
     @After
@@ -76,19 +76,19 @@ public class RatingTest {
 
     @Test
     public void testEquals() {
-        User creator = new User(1L, "Test", "User");
+        User creator = new User(1L, "Test User");
         Item item = new Item(1L, "Test Item");
 
-        Rating otherRating = new Rating(creator, item, Star.THREE);
+        Rating otherRating = new Rating(1L, creator, item, Star.THREE);
         assertTrue(this.testRating.equals(otherRating));
     }
     
     @Test
     public void testNotEquals() {
-        User creator = new User(2L, "Other", "User");
+        User creator = new User(2L, "Other User");
         Item item = new Item(2L, "Other Item");
 
-        Rating otherRating = new Rating(creator, item, Star.THREE);
+        Rating otherRating = new Rating(3L, creator, item, Star.THREE);
         assertFalse(this.testRating.equals(otherRating));
     }
     
@@ -110,10 +110,10 @@ public class RatingTest {
     
     @Test
     public void testHashCodeWithDifferent() {
-        User creator = new User(2L, "Other", "User");
+        User creator = new User(2L, "Other User");
         Item item = new Item(2L, "Other Item");
 
-        Rating otherRating = new Rating(creator, item, Star.THREE);
+        Rating otherRating = new Rating(4L, creator, item, Star.THREE);
         assertTrue(this.testRating.hashCode() != otherRating.hashCode());
     }
 

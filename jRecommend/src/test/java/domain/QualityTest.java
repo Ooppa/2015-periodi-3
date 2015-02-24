@@ -41,8 +41,8 @@ public class QualityTest {
     public void testGetItemsWhenSome() {
         Item pizzaItem = new Item(69L, "Pizza");
         Item kebabItem = new Item(42L, "Kebab");
-        this.testQuality.addItem(pizzaItem);
-        this.testQuality.addItem(kebabItem);
+        this.testQuality.getItems().add(pizzaItem);
+        this.testQuality.getItems().add(kebabItem);
 
         assertEquals(this.testQuality.getItems().size(), 2);
     }
@@ -50,7 +50,7 @@ public class QualityTest {
     @Test
     public void testAddItem() {
         Item item = new Item(1L, "Item");
-        this.testQuality.addItem(item);
+        this.testQuality.getItems().add(item);
 
         assertTrue(this.testQuality.getItems().contains(item));
     }
@@ -58,8 +58,8 @@ public class QualityTest {
     @Test
     public void testAddDuplicateItem() {
         Item item = new Item(1L, "Item");
-        this.testQuality.addItem(item);
-        this.testQuality.addItem(item);
+        this.testQuality.getItems().add(item);
+        this.testQuality.getItems().add(item);
 
         assertTrue(this.testQuality.getItems().contains(item)
                 &&this.testQuality.getItems().size()==1);
@@ -67,7 +67,7 @@ public class QualityTest {
 
     @Test
     public void testAddNullItem() {
-        this.testQuality.addItem(null);
+        this.testQuality.getItems().add(null);
 
         assertTrue(this.testQuality.getItems().contains(null)==false
                 &&this.testQuality.getItems().size()==0);
@@ -77,10 +77,10 @@ public class QualityTest {
     public void testRemoveItem() {
         Item pizzaItem = new Item(69L, "Pizza");
         Item kebabItem = new Item(42L, "Kebab");
-        this.testQuality.addItem(pizzaItem);
-        this.testQuality.addItem(kebabItem);
+        this.testQuality.getItems().add(pizzaItem);
+        this.testQuality.getItems().add(kebabItem);
 
-        this.testQuality.removeItem(kebabItem);
+        this.testQuality.getItems().remove(kebabItem);
 
         assertTrue(this.testQuality.getItems().contains(pizzaItem)==true
                 &&this.testQuality.getItems().contains(kebabItem)==false);
@@ -90,9 +90,9 @@ public class QualityTest {
     public void testRemoveWrongItem() {
         Item pizzaItem = new Item(69L, "Pizza");
         Item kebabItem = new Item(42L, "Kebab");
-        this.testQuality.addItem(pizzaItem);
+        this.testQuality.getItems().add(pizzaItem);
 
-        this.testQuality.removeItem(kebabItem);
+        this.testQuality.getItems().remove(kebabItem);
 
         assertTrue(this.testQuality.getItems().contains(pizzaItem)==true
                 &&this.testQuality.getItems().contains(kebabItem)==false);
@@ -101,7 +101,7 @@ public class QualityTest {
     @Test
     public void testAddCategory() {
         Category category = new Category(1L, "Category One");
-        this.testQuality.addCategory(category);
+        this.testQuality.getCategories().add(category);
 
         assertTrue(this.testQuality.getCategories().contains(category));
     }
@@ -110,8 +110,8 @@ public class QualityTest {
     public void testAddCategoryDuplicates() {
         Category category = new Category(1L, "Category One");
 
-        this.testQuality.addCategory(category);
-        this.testQuality.addCategory(category);
+        this.testQuality.getCategories().add(category);
+        this.testQuality.getCategories().add(category);
 
         assertTrue(this.testQuality.getCategories().contains(category));
     }
@@ -126,8 +126,8 @@ public class QualityTest {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
 
-        this.testQuality.addCategory(category1);
-        this.testQuality.addCategory(category2);
+        this.testQuality.getCategories().add(category1);
+        this.testQuality.getCategories().add(category2);
 
         assertEquals(this.testQuality.getCategories().size(), 2);
     }
@@ -137,9 +137,9 @@ public class QualityTest {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
 
-        this.testQuality.addCategory(category1);
-        this.testQuality.addCategory(category2);
-        this.testQuality.removeCategory(category1);
+        this.testQuality.getCategories().add(category1);
+        this.testQuality.getCategories().add(category2);
+        this.testQuality.getCategories().remove(category1);
 
         assertTrue(
                 this.testQuality.getCategories().contains(category1)==false
@@ -152,8 +152,8 @@ public class QualityTest {
         Category category1 = new Category(1L, "Category One");
         Category category2 = new Category(2L, "Category Two");
 
-        this.testQuality.addCategory(category1);
-        this.testQuality.removeCategory(category2);
+        this.testQuality.getCategories().add(category1);
+        this.testQuality.getCategories().remove(category2);
 
         assertTrue(
                 this.testQuality.getCategories().contains(category1)==true

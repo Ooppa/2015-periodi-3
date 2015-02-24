@@ -5,6 +5,8 @@
  */
 package domain;
 
+import java.util.Objects;
+
 /**
  * Defines an element that has id, name and description
  *
@@ -82,8 +84,9 @@ public abstract class AbstractElement {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79*hash+(int) (this.id^(this.id>>>32));
+        int hash = 7;
+        hash = 17*hash+(int) (this.id^(this.id>>>32));
+        hash = 17*hash+Objects.hashCode(this.name);
         return hash;
     }
 
@@ -99,7 +102,12 @@ public abstract class AbstractElement {
         if(this.id!=other.id) {
             return false;
         }
+        if(!Objects.equals(this.name, other.name)) {
+            return false;
+        }
         return true;
     }
+
+    
 
 }

@@ -91,7 +91,7 @@ public class ItemTest {
         this.testItem.getCategories().add(category1);
         this.testItem.getCategories().add(category2);
 
-        this.testItem.getCategories().add(category1);
+        this.testItem.getCategories().remove(category1);
 
         assertTrue(this.testItem.getCategories().contains(category1)==false
                 &&this.testItem.getCategories().contains(category2));
@@ -173,36 +173,36 @@ public class ItemTest {
 
     @Test
     public void testAddRating() {
-        User negativeUser = new User(1L, "Natalie", "Negative");
-        Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
+        User negativeUser = new User(1L, "Natalie Negative");
+        Rating negativeRating = new Rating(1L, negativeUser, this.testItem, Star.ONE);
 
-        this.testItem.addRating(negativeRating);
+        this.testItem.getRatings().add(negativeRating);
 
         assertEquals(this.testItem.getRatings().size(), 1);
     }
 
     @Test
     public void testGetRatings() {
-        User negativeUser = new User(1L, "Natalie", "Negative");
-        Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
+        User negativeUser = new User(1L, "Natalie Negative");
+        Rating negativeRating = new Rating(1L, negativeUser, this.testItem, Star.ONE);
 
-        this.testItem.addRating(negativeRating);
+        this.testItem.getRatings().add(negativeRating);
 
         assertTrue(this.testItem.getRatings().contains(negativeRating));
     }
 
     @Test
     public void testRemoveRating() {
-        User negativeUser = new User(1L, "Natalie", "Negative");
-        Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
+        User negativeUser = new User(1L, "Natalie Negative");
+        Rating negativeRating = new Rating(1L, negativeUser, this.testItem, Star.ONE);
 
-        User positiveUser = new User(2L, "Peter", "Positive");
-        Rating positiveRating = new Rating(positiveUser, this.testItem, Star.FIFE);
+        User positiveUser = new User(2L, "Peter Positive");
+        Rating positiveRating = new Rating(2L, positiveUser, this.testItem, Star.FIFE);
 
-        this.testItem.addRating(negativeRating);
-        this.testItem.addRating(positiveRating);
+        this.testItem.getRatings().add(negativeRating);
+        this.testItem.getRatings().add(positiveRating);
 
-        this.testItem.removeRating(positiveRating);
+        this.testItem.getRatings().remove(positiveRating);
 
         assertTrue(this.testItem.getRatings().contains(negativeRating)==true
                 &&this.testItem.getRatings().contains(positiveRating)==false);
@@ -210,15 +210,15 @@ public class ItemTest {
     
     @Test
     public void testRemoveWrongRating() {
-        User negativeUser = new User(1L, "Natalie", "Negative");
-        Rating negativeRating = new Rating(negativeUser, this.testItem, Star.ONE);
+        User negativeUser = new User(1L, "Natalie Negative");
+        Rating negativeRating = new Rating(1L, negativeUser, this.testItem, Star.ONE);
 
-        User positiveUser = new User(2L, "Peter", "Positive");
-        Rating positiveRating = new Rating(positiveUser, this.testItem, Star.FIFE);
+        User positiveUser = new User(2L, "Peter Positive");
+        Rating positiveRating = new Rating(2L, positiveUser, this.testItem, Star.FIFE);
 
-        this.testItem.addRating(negativeRating);
+        this.testItem.getRatings().add(negativeRating);
 
-        this.testItem.removeRating(positiveRating);
+        this.testItem.getRatings().remove(positiveRating);
 
         assertTrue(this.testItem.getRatings().contains(negativeRating)==true
                 &&this.testItem.getRatings().contains(positiveRating)==false);
@@ -226,13 +226,13 @@ public class ItemTest {
 
     @Test
     public void testEquals() {
-        Item compareItem = new Item(1L, "Compare Item");
+        Item compareItem = new Item(1L, "Example Item");
         assertTrue(testItem.equals(compareItem));
     }
 
     @Test
     public void testNotEquals() {
-        Item compareItem = new Item(2L, "Compare Item");
+        Item compareItem = new Item(2L, "Example Item");
         assertFalse(testItem.equals(compareItem));
     }
 

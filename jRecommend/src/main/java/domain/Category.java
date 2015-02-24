@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author Ooppa
  * @param <E>
  */
-public class Category<E> extends AbstractElement {
+public class Category extends AbstractElement {
 
     private HashMap<Long, AbstractElement> elements;
 
@@ -51,6 +51,15 @@ public class Category<E> extends AbstractElement {
         if(this.elements.containsValue(element)){
             this.elements.remove(element.getId(), element);
         }
+    }
+    
+    /**
+     * Returns true if the element is contained in this category
+     * @param element Element to find
+     * @return True if element was found
+     */
+    public boolean contains(AbstractElement element){
+        return this.elements.containsValue(element);
     }
 
     @Override

@@ -24,7 +24,7 @@ public class UserTest {
 
     @Before
     public void setUp() {
-        testUser = new User(1L, "Test", "User");
+        testUser = new User(1L, "Test User");
     }
 
     @After
@@ -33,13 +33,8 @@ public class UserTest {
     }
 
     @Test
-    public void testGetFirstName() {
-        assertEquals(testUser.getFirstName(), "Test");
-    }
-
-    @Test
-    public void testGetLastName() {
-        assertEquals(testUser.getLastName(), "User");
+    public void testGetName() {
+        assertEquals(testUser.getName(), "Test User");
     }
 
     @Test
@@ -50,9 +45,9 @@ public class UserTest {
     @Test
     public void testAddRatingWithOne() {
         Item item = new Item(1L, "Kukkaruukku");
-        Rating rating = new Rating(testUser, item, Star.FIFE);
+        Rating rating = new Rating(2L, testUser, item, Star.FIFE);
 
-        testUser.addRating(rating);
+        testUser.getRatings().add(rating);
 
         assertTrue(testUser.getRatings().contains(rating));
     }
@@ -60,10 +55,10 @@ public class UserTest {
     @Test
     public void testAddRatingDuplicates() {
         Item item = new Item(1L, "Kukkaruukku");
-        Rating rating = new Rating(testUser, item, Star.FIFE);
+        Rating rating = new Rating(2L, testUser, item, Star.FIFE);
 
-        testUser.addRating(rating);
-        testUser.addRating(rating);
+        testUser.getRatings().add(rating);
+        testUser.getRatings().add(rating);
 
         assertTrue(testUser.getRatings().contains(rating));
     }
@@ -73,11 +68,11 @@ public class UserTest {
         Item item1 = new Item(1L, "Kukkaruukku");
         Item item2 = new Item(2L, "Ämpäri");
 
-        Rating rating1 = new Rating(testUser, item1, Star.FIFE);
-        Rating rating2 = new Rating(testUser, item2, Star.FIFE);
+        Rating rating1 = new Rating(2L, testUser, item1, Star.FIFE);
+        Rating rating2 = new Rating(3L, testUser, item2, Star.FIFE);
 
-        testUser.addRating(rating1);
-        testUser.addRating(rating2);
+        testUser.getRatings().add(rating1);
+        testUser.getRatings().add(rating2);
 
         assertEquals(testUser.getRatings().size(), 2);
     }
@@ -87,12 +82,12 @@ public class UserTest {
         Item item1 = new Item(1L, "Kukkaruukku");
         Item item2 = new Item(2L, "Ämpäri");
 
-        Rating rating1 = new Rating(testUser, item1, Star.FIFE);
-        Rating rating2 = new Rating(testUser, item2, Star.FIFE);
+        Rating rating1 = new Rating(2L, testUser, item1, Star.FIFE);
+        Rating rating2 = new Rating(3L, testUser, item2, Star.FIFE);
 
-        testUser.addRating(rating1);
-        testUser.addRating(rating2);
-        testUser.removeRating(rating1);
+        testUser.getRatings().add(rating1);
+        testUser.getRatings().add(rating2);
+        testUser.getRatings().remove(rating1);
 
         assertFalse(testUser.getRatings().contains(rating1));
     }
@@ -102,12 +97,12 @@ public class UserTest {
         Item item1 = new Item(1L, "Kukkaruukku");
         Item item2 = new Item(2L, "Ämpäri");
 
-        Rating rating1 = new Rating(testUser, item1, Star.FIFE);
-        Rating rating2 = new Rating(testUser, item2, Star.FIFE);
+        Rating rating1 = new Rating(2L, testUser, item1, Star.FIFE);
+        Rating rating2 = new Rating(3L, testUser, item2, Star.FIFE);
 
-        testUser.addRating(rating1);
+        testUser.getRatings().add(rating1);
 
-        testUser.removeRating(rating2);
+        testUser.getRatings().remove(rating2);
 
         assertTrue(testUser.getRatings().contains(rating1)==true
                 &&testUser.getRatings().contains(rating2)==false);
@@ -115,13 +110,7 @@ public class UserTest {
 
     @Test
     public void testToString() {
-        String toString = testUser.toString();
-
-        boolean containsId = toString.contains(testUser.getId()+"");
-        boolean containsFirstName = toString.contains(testUser.getFirstName());
-        boolean containsLastName = toString.contains(testUser.getLastName());
-
-        assertTrue(containsId&&containsFirstName&&containsLastName);
+        assertTrue(testUser.toString().contains(testUser.getName()));
     }
     
     @Test
@@ -131,7 +120,7 @@ public class UserTest {
     
     @Test
     public void testHashCodeWithDifferent() {
-        User other = new User(2L, "Other", "User");
+        User other = new User(2L, "Other User");
         assertTrue(testUser.hashCode() != other.hashCode());
     }
 
@@ -142,7 +131,7 @@ public class UserTest {
 
     @Test
     public void testEqualsWhenFalse() {
-        User otherUser = new User(2L, "Barak", "Obama");
+        User otherUser = new User(2L, "Barak Obama");
 
         assertFalse(testUser.equals(otherUser));
     }
