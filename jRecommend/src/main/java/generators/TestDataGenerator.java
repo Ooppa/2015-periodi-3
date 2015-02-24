@@ -26,7 +26,7 @@ public class TestDataGenerator {
     private HashMap<Long, Item> items;
     private HashMap<Long, Category> categories;
     private HashMap<Long, Quality> qualities;
-    private HashMap<User, Rating> ratings;
+    private HashMap<Long, Rating> ratings;
 
     private static final Logger logger = Logger.getLogger(TestDataGenerator.class.getName());
 
@@ -128,7 +128,7 @@ public class TestDataGenerator {
      *
      * @see Rating
      */
-    public HashMap<User, Rating> getRatings() {
+    public HashMap<Long, Rating> getRatings() {
         return ratings;
     }
 
@@ -181,14 +181,12 @@ public class TestDataGenerator {
         populateUsers(Math.round(scale*250));
         populateItems(Math.round(scale*100));
         populateQualities((int) Math.round((double) scale*2.5));
-        populateCategories((int) Math.round((double) scale/14));
+        populateCategories((int) Math.round((double) scale/12));
 
         assingQualitiesToItems();
         assingCategoriesToItems();
 
         createRatings(scale);
-
-        printTotals();
     }
 
     /*
@@ -327,40 +325,26 @@ public class TestDataGenerator {
             Long key = entrySet.getKey();
             User user = entrySet.getValue();
 
-            int amountToRate = this.randomInteger(0, scale/3);
-
+            int amountToRate = this.randomInteger(0, 80);
             for(int i = 0; i<amountToRate; i++) {
                 // We pull random integer to state the index of the rated item
                 int indexOfItemToRate = this.randomInteger(0, items.size()-1);
 
                 Item item = items.get((long) indexOfItemToRate);
-                Rating rating = new Rating(ratingId++, user, item, randomStar());
+                Rating rating = new Rating(ratingId,  user, item, randomStar());
 
                 // If item has already been rated by this user it will not be added
                 item.getRatings().add(rating);
                 user.getRatings().add(rating);
-                ratings.put(user, rating);
-            }
-
-            if(user.getId()==(long) users.size()/2) {
-                break; // cut when half of them are through
+                ratings.put(rating.getId(), rating);
+   
+                ratingId++;
             }
 
         }
 
     }
-
-    /*
-     * Prints out the totals of the generated content to the console
-     */
-    private void printTotals() {
-        System.out.println("Created "+getAmountOfUsers()+" users.");
-        System.out.println("Created "+getAmountOfItems()+" items.");
-        System.out.println("Created "+getAmountOfCategories()+" categories.");
-        System.out.println("Created "+getAmountOfQualities()+" qualities.");
-        System.out.println("Created "+getAmountOfRatings()+" ratsings.");
-    }
-
+    
     /*
      * Creates a random integer between min and max
      */

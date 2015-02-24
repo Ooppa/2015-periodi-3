@@ -15,12 +15,21 @@ import java.util.HashMap;
 public class AbstractElementHashMap {
 
     private final HashMap<Long, AbstractElement> elements;
-    
+
     /**
      * Creates a new AbstractElementHashMap
      */
     public AbstractElementHashMap() {
         this.elements = new HashMap<>();
+    }
+
+    /**
+     * Creates a new AbstractElementHashMap with given size
+     *
+     * @param size Prefixed size for HashMap
+     */
+    public AbstractElementHashMap(int size) {
+        this.elements = new HashMap<>(size);
     }
 
     /**
@@ -66,6 +75,15 @@ public class AbstractElementHashMap {
     }
 
     /**
+     * Add all elements to AbstractElementHashMap
+     *
+     * @param elements Elements to add
+     */
+    public void addAll(HashMap<Long, AbstractElement> elements) {
+        this.elements.putAll(elements);
+    }
+
+    /**
      * Removes element from AbstractElementHashMap
      *
      * @param element Element to remove
@@ -74,6 +92,15 @@ public class AbstractElementHashMap {
         if(contains(element)) {
             this.elements.remove(element.getId());
         }
+    }
+
+    /**
+     * Returns the HashMap contained in AbstractElementHashMap
+     *
+     * @return HashMap
+     */
+    public HashMap<Long, AbstractElement> getAsHashMap() {
+        return elements;
     }
 
     /**

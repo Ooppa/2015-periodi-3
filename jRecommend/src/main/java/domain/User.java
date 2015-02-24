@@ -30,7 +30,7 @@ public class User extends AbstractElement {
      */
     public User(long id, String name) {
         super(id, name);
-        this.ratings = new AbstractElementHashMap();
+        this.ratings = new AbstractElementHashMap(100);
     }
 
     /**

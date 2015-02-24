@@ -5,7 +5,11 @@
  */
 package application;
 
+import domain.RecommendedItem;
+import domain.User;
 import generators.TestDataGenerator;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Example of the algorithm in action
@@ -21,11 +25,16 @@ public class Example {
      */
     public Example() {
         // Start by generating the test data.
-        data = new TestDataGenerator(true, 1000);
+        data = new TestDataGenerator(true, 400);
         
-        // THIS WILL BE CODED AGAIN WITH PROPER CLASS
+        Algorithm algorithm = new Algorithm();
+
+        HashMap<Long, User> users = data.getUsers();
+        User user = users.get(2000L);
         
-        // new one is Algorithm algorithm = new Algorithm();
+        users.remove(user.getId(), user);
+        
+        ArrayList<RecommendedItem> racommendItems = algorithm.racommendItems(user, users, data.getItems());
 
     }
 

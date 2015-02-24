@@ -5,6 +5,9 @@
  */
 package domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Defines an item that can be recommended by the algorithm.
  *
@@ -62,6 +65,32 @@ public class Item extends AbstractElement {
      */
     public AbstractElementHashMap getRatings() {
         return ratings;
+    }
+
+    /**
+     * Returns true if this item is rated by given user
+     *
+     * @param user User to search for
+     *
+     * @return True if rated by given user
+     */
+    public boolean isRatedBy(User user) {
+        // If creator and item are same, then rating is same
+        Rating tempRating = new Rating(0L, user, this, Star.ZERO);
+
+        return ratings.contains(tempRating);
+    }
+    
+    public HashMap<Long, AbstractElement> getUsersWhoRated(){
+        HashMap<Long, AbstractElement> users = new HashMap<>(ratings.size());
+        
+        for(Map.Entry<Long, AbstractElement> entrySet : ratings.getAsHashMap().entrySet()) {
+            Rating rating = (Rating) entrySet.getValue();
+            AbstractElement user = rating.getCreator();
+            users.put(user.getId(), user);
+        }
+        
+        return users;
     }
 
 }
