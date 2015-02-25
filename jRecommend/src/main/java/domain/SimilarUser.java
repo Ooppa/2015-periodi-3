@@ -78,7 +78,7 @@ public class SimilarUser implements Comparator<SimilarUser> {
 
     @Override
     public String toString() {
-        return this.user.toString() +" with similarity value of"+ this.similarityLevel;
+        return this.user.toString() +" [with similarity value of "+ this.similarityLevel +"]";
     }
 
     @Override

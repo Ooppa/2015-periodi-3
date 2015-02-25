@@ -181,7 +181,7 @@ public class TestDataGenerator {
         populateUsers(Math.round(scale*250));
         populateItems(Math.round(scale*100));
         populateQualities((int) Math.round((double) scale*2.5));
-        populateCategories((int) Math.round((double) scale/12));
+        populateCategories((int) Math.round((double) scale/10));
 
         assingQualitiesToItems();
         assingCategoriesToItems();
@@ -341,6 +341,10 @@ public class TestDataGenerator {
                 ratingId++;
             }
 
+        }
+        
+        if(debug) {
+            System.out.println(debugTimestamp()+"Finished giving "+ ratings.size() +" ratings from users.");
         }
 
     }

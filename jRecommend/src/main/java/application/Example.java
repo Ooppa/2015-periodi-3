@@ -24,6 +24,8 @@ public class Example {
      * Creates a new Example to be used to try out the algorithm
      */
     public Example() {
+        System.out.println("----------------- STARTING ------------------");
+        
         // Start by generating the test data.
         data = new TestDataGenerator(true, 400);
         
@@ -34,8 +36,19 @@ public class Example {
         
         users.remove(user.getId(), user);
         
-        ArrayList<RecommendedItem> racommendItems = algorithm.racommendItems(user, users, data.getItems());
+        System.out.println("----------------- ALGORITHM ------------------");
+        
+        ArrayList<RecommendedItem> recommendedItems = algorithm.recommendItems(user, users, data.getItems());
 
+        System.out.println("---------------- TOP 10 ITEMS ----------------");
+        
+        // if over 10 RecommendedItems in list
+        if(recommendedItems.size()>10){
+            for(int i = 0; i<10; i++) {
+                System.out.println(recommendedItems.get(i));
+            }
+        }
+        
     }
 
     /**

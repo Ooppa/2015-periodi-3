@@ -5,7 +5,6 @@
  */
 package domain;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,17 +46,35 @@ public class User extends AbstractElement {
      *
      * @see Item
      */
-    public HashMap<Long, Item> getRatedItems() {
-        HashMap<Long, Item> itemsRated = new HashMap<>();
+    public AbstractElementHashMap getRatedItems() {
+        AbstractElementHashMap ratedItems = new AbstractElementHashMap(ratings.size());
 
-        for(Map.Entry<Long, Item> entrySet : itemsRated.entrySet()) {
-            Long key = entrySet.getKey();
-            Item itemRated = entrySet.getValue();
-
-            itemsRated.put(itemRated.getId(), itemRated);
+        for(Map.Entry<Long, AbstractElement> entrySet : this.ratings.getAsHashMap().entrySet()) {
+            Rating rating = (Rating) entrySet.getValue();
+            ratedItems.add(rating.getItem());
         }
 
-        return itemsRated;
+        return ratedItems;
+    }
+
+    /**
+     * Returns the rating given to the item by this user
+     *
+     * @param item Item to search for
+     *
+     * @return Rating as Star
+     */
+    public Star getRatingForItem(Item item) {
+        for(Map.Entry<Long, AbstractElement> entrySet : this.ratings.getAsHashMap().entrySet()) {
+            Rating rating = (Rating) entrySet.getValue();
+
+            if(rating.getItem().equals(item)) {
+                return rating.getStarsGiven();
+            }
+
+        }
+
+        return Star.ZERO;
     }
 
     @Override

@@ -5,7 +5,6 @@
  */
 package domain;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -81,16 +80,16 @@ public class Item extends AbstractElement {
         return ratings.contains(tempRating);
     }
     
-    public HashMap<Long, AbstractElement> getUsersWhoRated(){
-        HashMap<Long, AbstractElement> users = new HashMap<>(ratings.size());
-        
-        for(Map.Entry<Long, AbstractElement> entrySet : ratings.getAsHashMap().entrySet()) {
+    public AbstractElementHashMap getUsersWhoRated(){
+        AbstractElementHashMap usersWhoRated = new AbstractElementHashMap(ratings.size());
+
+        for(Map.Entry<Long, AbstractElement> entrySet : this.ratings.getAsHashMap().entrySet()) {
             Rating rating = (Rating) entrySet.getValue();
-            AbstractElement user = rating.getCreator();
-            users.put(user.getId(), user);
+            
+            usersWhoRated.add(rating.getCreator());
         }
         
-        return users;
+        return usersWhoRated;
     }
 
 }
