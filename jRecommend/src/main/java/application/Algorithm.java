@@ -127,6 +127,9 @@ public class Algorithm {
         return mostSimilarUsers;
     }
     
+    /*
+     * Returns the RecommendedItems in Arraylist based on similary of users and their reviews
+     */
     private ArrayList<RecommendedItem> getRecommendedItems(ArrayList<SimilarUser> similarUsers){
         HashMap<Item, Double> recommendedItemsMap = new HashMap<>();
         
