@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fi.ooppa</groupId>
     <artifactId>jRecommend</artifactId>
-    <version>V4.30</version><!-- Viikko 4 Versio 3 -->
+    <version>RC1.0</version><!-- Relese Canditate 1.0 -->
     <packaging>jar</packaging>
     
     <properties>

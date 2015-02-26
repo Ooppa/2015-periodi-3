@@ -23,7 +23,7 @@ public class Application {
         } catch(IllegalArgumentException|ArrayIndexOutOfBoundsException exception) {
             logger.setLevel(Level.OFF);
         }
-        
+
         Example example = new Example();
 
     }

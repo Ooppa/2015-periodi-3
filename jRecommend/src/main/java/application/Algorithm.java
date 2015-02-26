@@ -40,7 +40,7 @@ public class Algorithm {
 
         // Define similarity between our user and interesting users
         ArrayList<SimilarUser> similarUsers = rateSimilarUsers(user, usersWhoRatedItems);
-        debugMessage("Similarity between "+similarUsers.size()+" defined.");
+        debugMessage("Similarity between "+similarUsers.size()+" users defined.");
 
         // Take the top 10% most similar users
         ArrayList<SimilarUser> mostSimilarUsers = getMostSimilarUsers(0.1, similarUsers);

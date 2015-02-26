@@ -318,14 +318,14 @@ public class TestDataGenerator {
         int ratingId = 0;
 
         if(debug) {
-            System.out.println(debugTimestamp()+"Giving items ratings from users.");
+            System.out.println(debugTimestamp()+"Giving items ratings from users (0-65 per user).");
         }
 
         for(Map.Entry<Long, User> entrySet : users.entrySet()) {
             Long key = entrySet.getKey();
             User user = entrySet.getValue();
 
-            int amountToRate = this.randomInteger(0, 80);
+            int amountToRate = this.randomInteger(0, 65);
             for(int i = 0; i<amountToRate; i++) {
                 // We pull random integer to state the index of the rated item
                 int indexOfItemToRate = this.randomInteger(0, items.size()-1);

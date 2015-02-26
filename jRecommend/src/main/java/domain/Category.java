@@ -49,7 +49,7 @@ public class Category extends AbstractElement {
      */
     public void removeElement(AbstractElement element) {
         if(this.elements.containsValue(element)){
-            this.elements.remove(element.getId(), element);
+            this.elements.remove(element.getId());
         }
     }
     

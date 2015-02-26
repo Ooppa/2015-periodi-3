@@ -25,30 +25,29 @@ public class Example {
      */
     public Example() {
         System.out.println("----------------- STARTING ------------------");
-        
+
         // Start by generating the test data.
         data = new TestDataGenerator(true, 400);
-        
+
         Algorithm algorithm = new Algorithm();
 
         HashMap<Long, User> users = data.getUsers();
         User user = users.get(2000L);
-        
-        users.remove(user.getId(), user);
-        
+
+        users.remove(user.getId());
+
         System.out.println("----------------- ALGORITHM ------------------");
-        
+
         ArrayList<RecommendedItem> recommendedItems = algorithm.recommendItems(user, users, data.getItems());
 
         System.out.println("---------------- TOP 10 ITEMS ----------------");
-        
-        // if over 10 RecommendedItems in list
-        if(recommendedItems.size()>10){
+
+        // If over 10 RecommendedItems in list
+        if(recommendedItems.size()>10) {
             for(int i = 0; i<10; i++) {
                 System.out.println(recommendedItems.get(i));
             }
         }
-        
     }
 
     /**
