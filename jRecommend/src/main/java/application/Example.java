@@ -19,16 +19,18 @@ import java.util.HashMap;
 public class Example {
 
     private final TestDataGenerator data;
+    private final ArrayList<RecommendedItem> recommendedItems;
 
     /**
      * Creates a new Example to be used to try out the algorithm
      */
     public Example() {
         System.out.println("----------------- STARTING ------------------");
-
+        
         // Start by generating the test data.
         data = new TestDataGenerator(true, 400);
 
+        // Create algorithm object
         Algorithm algorithm = new Algorithm();
 
         HashMap<Long, User> users = data.getUsers();
@@ -38,14 +40,23 @@ public class Example {
 
         System.out.println("----------------- ALGORITHM ------------------");
 
-        ArrayList<RecommendedItem> recommendedItems = algorithm.recommendItems(user, users, data.getItems());
+        // This generates a list of items recommended for the User given as parameter
+        recommendedItems = algorithm.recommendItems(user, users, data.getItems());
 
         System.out.println("---------------- TOP 10 ITEMS ----------------");
 
         // If over 10 RecommendedItems in list
         if(recommendedItems.size()>10) {
+            
+            // Print the Top-10 list as a showcase for the algorithm
             for(int i = 0; i<10; i++) {
                 System.out.println(recommendedItems.get(i));
+                
+                ArrayList<RecommendedItem> similarItems = algorithm.similarItems(recommendedItems.get(i).getItem(), data.getItems());
+                for(int j = 0; j<5; j++) {
+                    System.out.println("\t"+ similarItems.get(j));
+                }
+                
             }
         }
     }

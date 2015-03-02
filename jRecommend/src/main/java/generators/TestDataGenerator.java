@@ -34,7 +34,7 @@ public class TestDataGenerator {
      * Creates a new TestDataGenerator with no debug and scale of 1000.
      */
     public TestDataGenerator() {
-        this(false, 1000);
+        this(false, 500);
     }
 
     /**
@@ -49,14 +49,14 @@ public class TestDataGenerator {
         if(scale<300) {
             logger.log(Level.WARNING, "Scale for TestDataGenerator was too "
                     +"small, going to use the default value of 1000.");
-            scale = 1000;
+            scale = 500;
         }
 
         // Scale should not be too big
         if(scale>10000) {
             logger.log(Level.WARNING, "Scale for TestDataGenerator was too "
                     +"big, going to use the default value of 1000.");
-            scale = 1000;
+            scale = 500;
         }
 
         // Debugging fields
@@ -70,7 +70,7 @@ public class TestDataGenerator {
         populateFields(scale);
 
         if(debug) {
-            System.out.println(debugTimestamp()+"Creation process is now done."
+            System.out.println(debugTimestamp()+": Creation process is now done."
                     +" Overall it took "+TimeUnit.SECONDS.convert(
                             (System.nanoTime()-startingTime), TimeUnit.NANOSECONDS)
                     +" seconds.");
@@ -186,7 +186,7 @@ public class TestDataGenerator {
         assingQualitiesToItems();
         assingCategoriesToItems();
 
-        createRatings(scale);
+        createRatings();
     }
 
     /*
@@ -194,7 +194,7 @@ public class TestDataGenerator {
      */
     private void populateUsers(int amount) {
         if(debug) {
-            System.out.println(debugTimestamp()+"Creating "+amount+" users.");
+            System.out.println(debugTimestamp()+": Creating "+amount+" users.");
         }
 
         users = new HashMap<>(amount);
@@ -211,14 +211,18 @@ public class TestDataGenerator {
      */
     private void populateItems(int amount) {
         if(debug) {
-            System.out.println(debugTimestamp()+"Creating "+amount+" items.");
+            System.out.println(debugTimestamp()+": Creating "+amount+" items.");
         }
 
         items = new HashMap<>(amount);
 
         for(int i = 0; i<amount; i++) {
+            // Item number as name
             Item item = new Item(i, "Item number: "+i);
-            item.setDescription(getUUID());
+            
+            // Timestamp as description
+            item.setDescription("created at "+ debugTimestamp());
+            
             items.put(new Long(i), item);
         }
     }
@@ -228,7 +232,7 @@ public class TestDataGenerator {
      */
     private void populateQualities(int amount) {
         if(debug) {
-            System.out.println(debugTimestamp()+"Creating "+amount+" qualities.");
+            System.out.println(debugTimestamp()+": Creating "+amount+" qualities.");
         }
 
         qualities = new HashMap<>(amount);
@@ -246,7 +250,7 @@ public class TestDataGenerator {
      */
     private void populateCategories(int amount) {
         if(debug) {
-            System.out.println(debugTimestamp()+"Creating "+amount+" categories.");
+            System.out.println(debugTimestamp()+": Creating "+amount+" categories.");
         }
 
         categories = new HashMap<>(amount);
@@ -262,28 +266,23 @@ public class TestDataGenerator {
      * Assingns qualities to items
      */
     private void assingQualitiesToItems() {
-        int upperScale = (int) Math.round((double) items.size()*0.02);
-
         if(debug) {
-            System.out.println(debugTimestamp()+"Giving items (with maximum of "+upperScale+" items with one quality) their qualities.");
+            System.out.println(debugTimestamp()+": Giving items their qualities (5-15 qualities per item).");
         }
 
-        for(Map.Entry<Long, Quality> entrySet : qualities.entrySet()) {
-            Long key = entrySet.getKey();
-            Quality quality = entrySet.getValue();
-
-            int toItems = randomInteger(upperScale/2, upperScale);
-
-            // Assigning process
-            for(int i = 0; i<toItems; i++) {
-                // Random slot the quality will be added to
-                int itemId = randomInteger(1, items.size()-1);
-                // Duplicates should not be a problem
-                Item item = items.get((long) itemId);
-                item.getQualities().add(quality);
-
+        // For each item
+        for(Map.Entry<Long, Item> entrySet : items.entrySet()) {
+            Item item = entrySet.getValue();
+            
+            // Each item has from 5 to 15 qualities, discarding possible duplicates
+            for(int i = 0; i<randomInteger(5, 15); i++) {
+                Quality randomQuality = randomQuality();
+                
+                randomQuality.getItems().add(item);
+                item.getQualities().add(randomQuality);
+                
             }
-
+            
         }
 
     }
@@ -293,7 +292,7 @@ public class TestDataGenerator {
      */
     private void assingCategoriesToItems() {
         if(debug) {
-            System.out.println(debugTimestamp()+"Giving items (every item has a category) their categories.");
+            System.out.println(debugTimestamp()+": Giving items (every item has a category) their categories.");
         }
 
         for(Map.Entry<Long, Item> entrySet : items.entrySet()) {
@@ -312,13 +311,13 @@ public class TestDataGenerator {
     /*
      * Creates and assigns ratings to items and users
      */
-    private void createRatings(int scale) {
+    private void createRatings() {
         ratings = new HashMap<>();
         
         int ratingId = 0;
 
         if(debug) {
-            System.out.println(debugTimestamp()+"Giving items ratings from users (0-65 per user).");
+            System.out.println(debugTimestamp()+": Giving items ratings from users (0-65 per user).");
         }
 
         for(Map.Entry<Long, User> entrySet : users.entrySet()) {
@@ -344,7 +343,7 @@ public class TestDataGenerator {
         }
         
         if(debug) {
-            System.out.println(debugTimestamp()+"Finished giving "+ ratings.size() +" ratings from users.");
+            System.out.println(debugTimestamp()+": Finished giving "+ ratings.size() +" ratings from users.");
         }
 
     }
@@ -363,6 +362,13 @@ public class TestDataGenerator {
         Value[] values = Value.values();
         return values[randomInteger(0, values.length-1)];
     }
+    
+    /*
+     * Provides a random quality
+     */
+    private Quality randomQuality(){
+        return qualities.get((long) randomInteger(0, qualities.size()-1));
+    }
 
     /*
      * Provides random star for rating generation
@@ -370,13 +376,6 @@ public class TestDataGenerator {
     private Star randomStar() {
         Star[] stars = Star.values();
         return stars[randomInteger(0, stars.length-1)];
-    }
-
-    /*
-     * Provides a random boolean
-     */
-    private boolean randomBoolean() {
-        return this.random.nextBoolean();
     }
 
     /*
@@ -391,7 +390,7 @@ public class TestDataGenerator {
      * generation
      */
     private String debugTimestamp() {
-        return TimeUnit.MILLISECONDS.convert((System.nanoTime()-startingTime), TimeUnit.NANOSECONDS)+"ms: ";
+        return TimeUnit.MILLISECONDS.convert((System.nanoTime()-startingTime), TimeUnit.NANOSECONDS)+"ms";
     }
 
 }

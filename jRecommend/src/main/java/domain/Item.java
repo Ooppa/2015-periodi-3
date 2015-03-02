@@ -79,17 +79,25 @@ public class Item extends AbstractElement {
 
         return ratings.contains(tempRating);
     }
-    
-    public AbstractElementHashMap getUsersWhoRated(){
+
+    public AbstractElementHashMap getUsersWhoRated() {
         AbstractElementHashMap usersWhoRated = new AbstractElementHashMap(ratings.size());
 
         for(Map.Entry<Long, AbstractElement> entrySet : this.ratings.getAsHashMap().entrySet()) {
             Rating rating = (Rating) entrySet.getValue();
-            
+
             usersWhoRated.add(rating.getCreator());
         }
-        
+
         return usersWhoRated;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()
+                +" Q:"+qualities.size()
+                +" R:"+ratings.size()
+                +" C:"+categories.size();
     }
 
 }
