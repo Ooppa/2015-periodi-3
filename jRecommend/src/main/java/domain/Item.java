@@ -32,11 +32,13 @@ public class Item extends AbstractElement {
     /**
      * Creates a new Item
      *
-     * @param id
-     * @param name
+     * @param id   the unique id for the Item
+     * @param name the name for the Item
      *
      * @see AbstractElement
-     * @see Category, Quality, Rating
+     * @see Category
+     * @see Quality
+     * @see Rating
      */
     public Item(long id, String name) {
         super(id, name);

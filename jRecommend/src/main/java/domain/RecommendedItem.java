@@ -41,7 +41,7 @@ public class RecommendedItem implements Comparator<RecommendedItem> {
     }
 
     /**
-     * Creates a new but empty RecommendedItem, mainly used for Comparator
+     * Creates a new but empty RecommendedItem, only used for Comparator
      */
     public RecommendedItem() {
     }

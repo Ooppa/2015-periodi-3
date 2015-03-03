@@ -9,10 +9,13 @@ import static junit.framework.Assert.assertTrue;
 import org.junit.*;
 
 /**
+ * This test is skipped due to a long time it takes to run.
+ * If you want to run this test, please remove the @ignore tag from below.
  *
  * @author Ooppa
  */
-@Ignore // Skipped for the time being
+
+@Ignore
 public class TestDataGeneratorTest {
 
     private static TestDataGenerator testGenerator;

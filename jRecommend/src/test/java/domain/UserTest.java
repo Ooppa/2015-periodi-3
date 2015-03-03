@@ -109,19 +109,50 @@ public class UserTest {
     }
 
     @Test
+    public void testGetRatedItems() {
+        Item item1 = new Item(1L, "Kukkaruukku");
+        Item item2 = new Item(2L, "Ämpäri");
+
+        Rating rating1 = new Rating(2L, testUser, item1, Star.FIFE);
+        Rating rating2 = new Rating(3L, testUser, item2, Star.FIFE);
+
+        testUser.getRatings().add(rating1);
+        testUser.getRatings().add(rating2);
+
+        assertTrue(testUser.getRatedItems().contains(item1)
+                &&testUser.getRatedItems().contains(item2)
+        );
+    }
+    
+    @Test
+    public void testGetRatingForItemWhenExists(){
+        Item item1 = new Item(1L, "Kukkaruukku");
+        Rating rating1 = new Rating(2L, testUser, item1, Star.FIFE);
+        testUser.getRatings().add(rating1);
+        
+        assertTrue(testUser.getRatingForItem(item1).equals(Star.FIFE));
+    }
+    
+    @Test
+    public void testGetRatingForItemWhenDoesntExist(){
+        Item item = new Item(1L, "Kukkaruukku");
+        assertTrue(testUser.getRatingForItem(item).equals(Star.ZERO));
+    }
+
+    @Test
     public void testToString() {
         assertTrue(testUser.toString().contains(testUser.getName()));
     }
-    
+
     @Test
     public void testHashCodeWithSame() {
-        assertTrue(testUser.hashCode() == testUser.hashCode());
+        assertTrue(testUser.hashCode()==testUser.hashCode());
     }
-    
+
     @Test
     public void testHashCodeWithDifferent() {
         User other = new User(2L, "Other User");
-        assertTrue(testUser.hashCode() != other.hashCode());
+        assertTrue(testUser.hashCode()!=other.hashCode());
     }
 
     @Test
@@ -135,7 +166,7 @@ public class UserTest {
 
         assertFalse(testUser.equals(otherUser));
     }
-    
+
     @Test
     public void testEqualsWhenNull() {
         assertFalse(testUser.equals(null));

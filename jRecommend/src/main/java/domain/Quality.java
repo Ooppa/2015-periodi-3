@@ -30,8 +30,8 @@ public class Quality extends AbstractElement {
     /**
      * Creates a new quality
      *
-     * @param id   the unique id for the quality
-     * @param name the name for the quality
+     * @param id   the unique id for the Quality
+     * @param name the name for the Quality
      *
      * @see AbstractElement
      * @see Category
@@ -70,7 +70,7 @@ public class Quality extends AbstractElement {
     /**
      * Set a new importance level for this quality
      *
-     * @param importance
+     * @param importance importance of the Quality
      *
      * @see Value
      */

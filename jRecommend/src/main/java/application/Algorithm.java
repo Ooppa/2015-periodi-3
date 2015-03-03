@@ -23,6 +23,9 @@ public class Algorithm {
      */
     private final long startingTime;
 
+    /**
+     * Creates a new instance of Algorithm
+     */
     public Algorithm() {
         startingTime = System.nanoTime();
     }

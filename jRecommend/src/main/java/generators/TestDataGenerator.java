@@ -41,7 +41,7 @@ public class TestDataGenerator {
      * Creates a new TestDataGenerator
      *
      * @param debug print out debug messages while generating the data
-     * @param scale scales the amount of test data generated (recommended 500->)
+     * @param scale scales the amount of test data generated
      */
     public TestDataGenerator(boolean debug, int scale) {
 
@@ -177,6 +177,9 @@ public class TestDataGenerator {
         return ratings.size();
     }
 
+    /*
+     * Populates data fields according to scale
+     */
     private void populateFields(int scale) {
         populateUsers(Math.round(scale*250));
         populateItems(Math.round(scale*100));
@@ -219,10 +222,10 @@ public class TestDataGenerator {
         for(int i = 0; i<amount; i++) {
             // Item number as name
             Item item = new Item(i, "Item number: "+i);
-            
+
             // Timestamp as description
-            item.setDescription("created at "+ debugTimestamp());
-            
+            item.setDescription("created at "+debugTimestamp());
+
             items.put(new Long(i), item);
         }
     }
@@ -273,16 +276,16 @@ public class TestDataGenerator {
         // For each item
         for(Map.Entry<Long, Item> entrySet : items.entrySet()) {
             Item item = entrySet.getValue();
-            
+
             // Each item has from 5 to 15 qualities, discarding possible duplicates
             for(int i = 0; i<randomInteger(5, 15); i++) {
                 Quality randomQuality = randomQuality();
-                
+
                 randomQuality.getItems().add(item);
                 item.getQualities().add(randomQuality);
-                
+
             }
-            
+
         }
 
     }
@@ -313,7 +316,7 @@ public class TestDataGenerator {
      */
     private void createRatings() {
         ratings = new HashMap<>();
-        
+
         int ratingId = 0;
 
         if(debug) {
@@ -330,24 +333,24 @@ public class TestDataGenerator {
                 int indexOfItemToRate = this.randomInteger(0, items.size()-1);
 
                 Item item = items.get((long) indexOfItemToRate);
-                Rating rating = new Rating(ratingId,  user, item, randomStar());
+                Rating rating = new Rating(ratingId, user, item, randomStar());
 
                 // If item has already been rated by this user it will not be added
                 item.getRatings().add(rating);
                 user.getRatings().add(rating);
                 ratings.put(rating.getId(), rating);
-   
+
                 ratingId++;
             }
 
         }
-        
+
         if(debug) {
-            System.out.println(debugTimestamp()+": Finished giving "+ ratings.size() +" ratings from users.");
+            System.out.println(debugTimestamp()+": Finished giving "+ratings.size()+" ratings from users.");
         }
 
     }
-    
+
     /*
      * Creates a random integer between min and max
      */
@@ -362,11 +365,11 @@ public class TestDataGenerator {
         Value[] values = Value.values();
         return values[randomInteger(0, values.length-1)];
     }
-    
+
     /*
      * Provides a random quality
      */
-    private Quality randomQuality(){
+    private Quality randomQuality() {
         return qualities.get((long) randomInteger(0, qualities.size()-1));
     }
 

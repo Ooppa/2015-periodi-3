@@ -31,7 +31,7 @@ public class SimilarUser implements Comparator<SimilarUser> {
     }
 
     /**
-     * Creates a new but empty SimilarUser, mainly used for Comparator
+     * Creates a new but empty SimilarUser, only used for Comparator
      */
     public SimilarUser() {
     }

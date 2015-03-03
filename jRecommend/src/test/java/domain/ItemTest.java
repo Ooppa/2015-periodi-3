@@ -190,6 +190,26 @@ public class ItemTest {
 
         assertTrue(this.testItem.getRatings().contains(negativeRating));
     }
+    
+    @Test
+    public void testIsRatedBy(){
+        User negativeUser = new User(1L, "Natalie Negative");
+        Rating negativeRating = new Rating(1L, negativeUser, this.testItem, Star.ONE);
+
+        this.testItem.getRatings().add(negativeRating);
+        
+        assertTrue(testItem.isRatedBy(negativeUser));
+    }
+    
+    @Test
+    public void testGetUsersWhoRated(){
+        User negativeUser = new User(1L, "Natalie Negative");
+        Rating negativeRating = new Rating(1L, negativeUser, this.testItem, Star.ONE);
+
+        this.testItem.getRatings().add(negativeRating);
+        
+        assertTrue(testItem.getUsersWhoRated().contains(negativeUser));
+    }
 
     @Test
     public void testRemoveRating() {

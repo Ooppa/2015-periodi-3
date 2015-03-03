@@ -71,7 +71,7 @@ public abstract class AbstractElement {
     /**
      * Set new description for the AbstractElement
      *
-     * @param description
+     * @param description Description for the element
      */
     public void setDescription(String description) {
         this.description = description;
