@@ -53,10 +53,6 @@ public class Algorithm {
         AbstractElementHashMap usersWhoRatedItems = getUsersWhoRatedItems(user.getRatedItems());
         debugMessage("Interesting users found: "+usersWhoRatedItems.size());
 
-        // Items rated by interesting users
-        AbstractElementHashMap itemsRatedByUsers = getItemsRatedByUsers(usersWhoRatedItems);
-        debugMessage("Interesting items found: "+itemsRatedByUsers.size());
-
         // Define similarity between our user and interesting users
         ArrayList<SimilarUser> similarUsers = rateSimilarUsers(user, usersWhoRatedItems);
         debugMessage("Similarity between "+similarUsers.size()+" users defined.");
@@ -166,20 +162,6 @@ public class Algorithm {
         }
 
         return usersWhoRatedItems;
-    }
-
-    /*
-     * Returns a list of items rated by the given user
-     */
-    private AbstractElementHashMap getItemsRatedByUsers(AbstractElementHashMap users) {
-        AbstractElementHashMap itemsRatedByUsers = new AbstractElementHashMap(users.size());
-
-        for(Map.Entry<Long, AbstractElement> entrySet : users.getAsHashMap().entrySet()) {
-            User user = (User) entrySet.getValue();
-            itemsRatedByUsers.addAll(user.getRatedItems().getAsHashMap());
-        }
-
-        return itemsRatedByUsers;
     }
 
     /*

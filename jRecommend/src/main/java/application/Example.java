@@ -33,9 +33,13 @@ public class Example {
         // Create algorithm object
         Algorithm algorithm = new Algorithm();
 
+        // Get users generated
         HashMap<Long, User> users = data.getUsers();
+        
+        // Example user
         User user = users.get(2000L);
 
+        // Removes our example user from the list
         users.remove(user.getId());
 
         System.out.println("----------------- ALGORITHM ------------------");
