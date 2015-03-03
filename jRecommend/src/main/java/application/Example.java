@@ -53,11 +53,16 @@ public class Example {
                 System.out.println(recommendedItems.get(i));
                 
                 ArrayList<RecommendedItem> similarItems = algorithm.similarItems(recommendedItems.get(i).getItem(), data.getItems());
+                
+                // Print the top 5 most similar items to this top-10 list item
                 for(int j = 0; j<5; j++) {
                     System.out.println("\t"+ similarItems.get(j));
                 }
                 
             }
+        } else {
+            // Can't print the top 10 if we have less than 10 items
+            System.out.println("Less than 10 recommended items were found.");
         }
     }
 
